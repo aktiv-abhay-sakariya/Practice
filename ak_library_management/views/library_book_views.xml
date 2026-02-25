@@ -21,6 +21,7 @@
         <field name="model">library.book</field>
         <field name="arch" type="xml">
             <form string="Idea form">
+                <header></header>
                 <sheet name="book_form">
                     <field name="image_1920" widget="image"/>
                     <div class="oe_title">

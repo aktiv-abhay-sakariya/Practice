@@ -16,7 +16,8 @@
         'views/library_book_views.xml',
         'views/book_category_views.xml',
         'views/book_edition_views.xml',
-        'views/author_author_views.xml'
+        'views/author_author_views.xml',
+        'wizard/wizard_book_views.xml',
     ],
     'license': 'AGPL-3',
     'installable': True,

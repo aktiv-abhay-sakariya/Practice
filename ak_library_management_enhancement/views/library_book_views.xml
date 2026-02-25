@@ -9,6 +9,23 @@
         <field name="mode">primary</field>
         <field name="arch" type="xml">
 
+            <xpath expr="//header" position="inside">
+                    <button name="find_book"
+                        type="object"
+                        string="Search"
+                        class="btn-primary"/>
+                    <button name="find_book_count"
+                        type="object"
+                        string="Search count"
+                        class="btn-primary"/>
+                    <button name="%(ak_library_management.menu_access_author)d"
+                        type="action"
+                        string="Open Author"
+                        class="btn-info"/>
+                    <button name="action_done_show_wizard" string="Wizard"
+                            type="object" class="oe_highlight"/>
+            </xpath>
+
             <xpath expr="//field[@name='isbn']" position="before">
                 <field name="sequence" readonly="1"/>
             </xpath>

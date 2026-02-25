@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!-- List View: Displays a table of library books
+    (name, isbn, price, pages) -->
+    <record id='library_book_view_list' model='ir.ui.view'>
+        <field name="name">library.book.view.list</field>
+        <field name="model">library.book</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name='name'/>
+                <field name='isbn'/>
+                <field name='price'/>
+                <field name='pages'/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Form View: Detailed view for editing/creating a book-->
+    <record id='library_book_view_form' model='ir.ui.view'>
+        <field name="name">library.book.view.form</field>
+        <field name="model">library.book</field>
+        <field name="arch" type="xml">
+            <form string="Idea form">
+                <sheet name="book_form">
+                    <field name="image_1920" widget="image"/>
+                    <div class="oe_title">
+                        <label for="name" string="Book"/>
+                        <h1>
+                            <div class="d-flex">
+                                <field name="name" placeholder="e.g Title"/>
+                            </div>
+                        </h1>
+                    </div>
+                    <notebook>
+                        <page string="General Information"
+                              name="general_information">
+                            <group>
+                                <group name="group_general">
+                                    <field name="isbn"/>
+                                    <field name="publication_date"/>
+                                    <field
+                                        name="edition_ids"
+                                        widget="many2many_tags"
+                                        options="{
+                                            'no_quick_create': True,
+                                            'edit_tags': True,
+                                        }"
+                                    />
+                                    <field name="price"/>
+                                </group>
+                                <group name="group_standard_price">
+                                    <field name="pages"/>
+                                    <field name="category_id"/>
+                                    <field name="total_books"/>
+                                    <field name="total_sales_amout"/>
+                                    <field name="author_id"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Description">
+                                <group string="Book Summary">
+                                    <field name="description"
+                                           widget="html" nolabel="1"/>
+                                </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Search View: Enables filtering and searching on books (name, isbn) -->
+    <record id='library_book_view_search' model='ir.ui.view'>
+        <field name="name">library.book.view.search</field>
+        <field name="model">library.book</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name='name'/>
+                <field name='isbn'/>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action: Defines how to open the books records -->
+    <record model="ir.actions.act_window" id="menu_access_book">
+        <field name="name">Books</field>
+        <field name="res_model">library.book</field>
+        <field name="view_mode">list,form,search</field>
+        <field name="help">Add books</field>
+    </record>
+
+    <menuitem id="main_menu_access" name="Library Management"/>
+    <menuitem id="menu_access" name="Library Management"
+              parent="main_menu_access"/>
+    <menuitem id="sub_menu_access_book" name="Books"
+              parent="menu_access" action="menu_access_book"/>
+</odoo>

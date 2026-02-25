@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!-- inherit List View: Displays a table of author -->
+    <record id="author_author_view_list_inherit" model="ir.ui.view">
+        <field name="name">author.author.view.list.inherit</field>
+        <field name="model">author.author</field>
+        <field name="inherit_id"
+               ref="ak_library_management.author_author_view_list"/>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <list position="attributes">
+                <attribute name="decoration-success">
+                    status == 'active'</attribute>
+                <attribute name="decoration-warning">
+                    status == 'inactive'</attribute>
+                <attribute name="decoration-muted">
+                    status == 'blocked'</attribute>
+            </list>
+        </field>
+    </record>
+
+    <!-- inherit Form View: Detailed view for editing/creating an author-->
+    <record id="author_author_view_form_inherit" model="ir.ui.view">
+        <field name="name">author.author.view.form.inherit</field>
+        <field name="model">author.author</field>
+        <field name="inherit_id"
+               ref="ak_library_management.author_author_view_form"/>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="attributes">
+                <attribute name="help">Fullname of Author</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='dob_date']" position="attributes">
+                <attribute name="help">Select Birth date of This Author
+                </attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='gender']" position="attributes">
+                <attribute name="help">Choose Gender of This Author</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='nationality']" position="attributes">
+                <attribute name="help">Country of This Author</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='email']" position="attributes">
+                <attribute name="help">Email Address of This Author</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='phone']" position="attributes">
+                <attribute name="help">Phone No of This Author</attribute>
+            </xpath>
+
+             <xpath expr="//field[@name='social_profile']" position="attributes">
+                <attribute name="help">Social Account link of This Author
+                </attribute>
+            </xpath>
+
+            <xpath expr="//header" position="inside">
+                <field name="status" widget="statusbar"
+                       options="{'clickable': '1'}"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- inherit Action : Update list and form view-->
+    <record id="ak_library_management.menu_access_author"
+            model="ir.actions.act_window">
+        <field name="name">Authors</field>
+        <field name="res_model">author.author</field>
+        <field name="view_mode">list,form</field>
+        <field name="view_ids" eval="[
+            (5,0,0),
+            (0,0,{'view_mode':'list','view_id':ref('author_author_view_list_inherit')}),
+            (0,0,{'view_mode':'form','view_id':ref('author_author_view_form_inherit')})
+        ]"/>
+    </record>
+
+    <!-- inherit Menuitem : Rename and Add sequence in Author(Sub menu)-->
+    <record id="ak_library_management.sub_menu_access_author" model="ir.ui.menu">
+        <field name="name">Author</field>
+        <field name='sequence'>1</field>
+    </record>
+</odoo>

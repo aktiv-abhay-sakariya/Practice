@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+ak_library_management.access_book_category,access_book_category,ak_library_management.model_book_category,base.group_user,1,1,1,1
+ak_library_management.access_library_book,access_library_book,ak_library_management.model_library_book,base.group_user,1,1,1,1
+ak_library_management.access_book_edition,access_book_edition,ak_library_management.model_book_edition,base.group_user,1,1,1,1
+ak_library_management.access_author_book,access_author_book,ak_library_management.model_author_book,base.group_user,1,1,1,1
+ak_library_management.access_author_author,access_author_author,ak_library_management.model_author_author,base.group_user,1,1,1,1

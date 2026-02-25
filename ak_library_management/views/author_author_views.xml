@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!-- List View: Displays a table of author (name, dob_date, gender) -->
+    <record id='author_author_view_list' model='ir.ui.view'>
+        <field name="name">author.author.view.list</field>
+        <field name="model">author.author</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name='name'/>
+                <field name='dob_date'/>
+                <field name='gender'/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Form View: Detailed view for editing/creating an author-->
+    <record id='author_author_view_form' model='ir.ui.view'>
+        <field name="name">author.author.view.form</field>
+        <field name="model">author.author</field>
+        <field name="arch" type="xml">
+            <form string="Idea form2">
+                <header></header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name='name'/>
+                            <field name='dob_date'/>
+                            <field name='gender' widget="radio"/>
+                            <field name='nationality'/>
+                        </group>
+                        <group>
+                            <field name='email' widget="email"/>
+                            <field name='phone' widget="phone"/>
+                            <field name='social_profile' widget="url"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Books">
+                            <field name="book_ids" readonly ="1" >
+                                <list>
+                                    <field name="book_id"/>
+                                    <field name="isbn"/>
+                                    <field name="publication_date"/>
+                                    <field name="price"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Search View: Enables filtering and searching on Author
+         (name, email, phone) -->
+    <record id="author_author_view_search" model="ir.ui.view">
+        <field name="name">author.author.view.search</field>
+        <field name="model">author.author</field>
+        <field name="arch" type="xml">
+            <search string="Search Authors">
+                <field name="name" string="Author Name"/>
+                <field name="email"/>
+                <field name="phone"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action: Defines how to open the authors records -->
+    <record model="ir.actions.act_window" id="menu_access_author">
+        <field name="name">Author</field>
+        <field name="res_model">author.author</field>
+        <field name="view_mode">list,form,search</field>
+        <field name="help">Add author</field>
+    </record>
+
+    <menuitem id="sub_menu_access_author" name="Author"
+              parent="menu_access" action="menu_access_author"/>
+</odoo>

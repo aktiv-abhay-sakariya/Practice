@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!-- inherit Form View: Detailed view for editing/creating a book-->
+    <record id='library_book_view_form_inherit' model='ir.ui.view'>
+        <field name="name">library.book.view.form.inherit</field>
+        <field name="model">library.book</field>
+        <field name="inherit_id"
+               ref="ak_library_management.library_book_view_form"/>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='isbn']" position="before">
+                <field name="sequence" readonly="1"/>
+            </xpath>
+
+            <xpath expr="//field[@name='name']" position="attributes">
+                <attribute name="help">Title of Book</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='isbn']" position="attributes">
+                <attribute name="help">ISBN No. of Book</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='publication_date']"
+                   position="attributes">
+                <attribute name="help">Date of Book Publication</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='price']" position="attributes">
+                <attribute name="help">Price of Book</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='pages']" position="attributes">
+                <attribute name="help">Total Pages of Book</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='edition_ids']" position="attributes">
+                <attribute name="help">Total Editions of Book</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='total_books']" position="attributes">
+                <attribute name="help">Total Books are Available</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='total_sales_amout']"
+                   position="attributes">
+                <attribute name="help">Total Sales Amount of Available Books
+                </attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='category_id']" position="attributes">
+                <attribute name="help">Category type of Book </attribute>
+                <attribute name="options">{
+                    'no_create': True,
+                    'no_create_edit': True,
+                    'no_open': True
+                    }
+                </attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='author_id']" position="attributes">
+                <attribute name="help">Author of Book</attribute>
+                <attribute name="options">{
+                    'no_create': True,
+                    'no_create_edit': True,
+                    'no_open': True
+                    }
+                </attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='image_1920']" position="replace">
+                <field name="image"
+                       nolabel="1"
+                       widget="image"
+                       class="oe_avatar"
+                       options="{
+                       'convert_to_webp': True,
+                       'preview_image': 'image_128'}"/>
+            </xpath>
+        </field>
+    </record>
+
+     <!-- inherit Action : Update form view-->
+    <record id="ak_library_management.menu_access_book"
+            model="ir.actions.act_window">
+        <field name="name">Books</field>
+        <field name="res_model">library.book</field>
+        <field name="view_mode">list,form</field>
+        <field name="view_ids" eval="[
+            (5,0,0),
+            (0,0,{
+                'view_mode':'list',
+                'view_id':ref('ak_library_management.library_book_view_list')
+            }),
+            (0,0,{'view_mode':'form','view_id':ref('library_book_view_form_inherit')})
+        ]"/>
+    </record>
+
+    <!-- inherit Menuitem: Rename to Library(Main menu)-->
+    <record id="ak_library_management.menu_access" model="ir.ui.menu">
+        <field name="name">Library</field>
+    </record>
+
+    <!-- inherit Menuitem : Rename and Add sequence in Book(Sub menu)-->
+    <record id="ak_library_management.sub_menu_access_book" model="ir.ui.menu">
+        <field name="name">Book</field>
+        <field name="sequence">2</field>
+    </record>
+</odoo>

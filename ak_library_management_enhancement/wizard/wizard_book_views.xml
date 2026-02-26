@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
-    <record id="author_views_wizard" model="ir.ui.view">
-        <field name="name">author.views</field>
+    <record id="author_wizard_view_form" model="ir.ui.view">
+        <field name="name">author.wizard.view.form</field>
         <field name="model">book.author.wizard</field>
         <field name="arch" type="xml">
-            <form string="Author">
-                <field name="author_id" string="Author"/>
+            <form string="New Quotation">
+                <group>
+                    <field name="author_id" string="Author"/>
+                </group>
                 <footer>
                     <button name="action_done" string="Confirm" type="object" class="oe_highlight"/>
                     <button string="Cancel" class="btn btn-default" special="cancel"/>

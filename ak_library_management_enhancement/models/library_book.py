@@ -11,6 +11,7 @@ class LibraryBook(models.Model):
     image = fields.Image(string='Book Image')
     sequence = fields.Char(string='Sequence Number', store=True, default='New')
 
+
     @api.model_create_multi
     def create(self, vals):
         """Create a new record with the given values."""

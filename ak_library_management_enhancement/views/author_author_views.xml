@@ -27,6 +27,20 @@
                ref="ak_library_management.author_author_view_form"/>
         <field name="mode">primary</field>
         <field name="arch" type="xml">
+
+            <xpath expr="//sheet" position="inside">
+                <div class="oe_button_box" name="button_box">
+                    <button name="book_info"
+                            type="object"
+                            string="Books"
+                            class="oe_stat_button"
+                            icon="fa-book">
+                        <div>
+                        <field name="total_book"/></div>
+                    </button>
+                </div>
+            </xpath>
+
             <xpath expr="//field[@name='name']" position="attributes">
                 <attribute name="help">Fullname of Author</attribute>
             </xpath>

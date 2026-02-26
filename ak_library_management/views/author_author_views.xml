@@ -18,7 +18,7 @@
         <field name="name">author.author.view.form</field>
         <field name="model">author.author</field>
         <field name="arch" type="xml">
-            <form string="Idea form2">
+            <form string="Author Form">
                 <header></header>
                 <sheet>
                     <group>

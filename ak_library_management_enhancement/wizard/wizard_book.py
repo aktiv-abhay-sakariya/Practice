@@ -12,5 +12,7 @@ class Author(models.TransientModel):
 
 
     def action_done(self):
-        self.env['library.book'].write({'author_id': self.author_id})
+        active_id = self.env.context.get('active_id')
+        book = self.env['library.book'].browse(active_id)
+        book.author_id = self.author_id.id
         return {'type': 'ir.actions.act_window_close'}

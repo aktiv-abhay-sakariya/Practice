@@ -13,6 +13,7 @@
     'website': 'https://www.aktivsoftware.com/',
     'depends': ['base', 'ak_library_management'],
     'data': [
+        'security/ir.model.access.csv',
         'views/library_book_views.xml',
         'views/book_category_views.xml',
         'views/book_edition_views.xml',

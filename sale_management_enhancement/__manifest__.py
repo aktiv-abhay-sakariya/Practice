@@ -13,7 +13,9 @@
     'website': 'https://www.aktivsoftware.com/',
     'depends': ['base', 'sale_management'],
     'data': [
+        'security/ir.model.access.csv',
         'views/sale_order_enhancement_view.xml',
+        'wizard/trust_wizard_views.xml',
     ],
     'license': 'AGPL-3',
     'installable': True,

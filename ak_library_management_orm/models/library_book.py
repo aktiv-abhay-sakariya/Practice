@@ -102,19 +102,25 @@ class LibraryBook(models.Model):
             bool: True if a record remove succesfully in DB otherwise False.
         """
         for record in self:
-            record.env['author.book'].search([('book_id', '=', record.id)]).unlink()
+            record.env['author.book'].search([
+                ('book_id', '=', record.id)
+            ]).unlink()
         return super(LibraryBook, self).unlink()
 
     def create_product(self):
-        product_template = self.env['product.template']
+        """
+        Create product of current book also create related category and
+        attribute value.
+        """
         for record in self:
-            
             category = record._create_product_category(record.category_id)
-            
-            attribute_id = self.env['product.attribute'].search([('name','=','Editions')]).id
-            attribute = record._create_product_attribute(attribute_id, record.edition_ids)
-            
-            product = product_template.create({
+            attribute_id = self.env['product.attribute'].search([
+                ('name','=','Editions')
+            ]).id
+            attribute = record._create_product_attribute(
+                attribute_id, record.edition_ids
+            )
+            product = self.env['product.template'].create({
                 'name':record.name,
                 'type':'consu',
                 'is_storable':True,
@@ -128,9 +134,11 @@ class LibraryBook(models.Model):
             })
             record.is_product_created = True
             for variant in product.product_variant_ids:
-                book_edition = self.env['book.edition'].search(
-                    [('name', '=', variant.product_template_attribute_value_ids.name)],
-                    limit=1)
+                book_edition = self.env['book.edition'].search([(
+                    'name',
+                    '=',
+                    variant.product_template_attribute_value_ids.name
+                )],limit=1)
                 if book_edition:
                     variant.write({
                         'lst_price': book_edition.book_price,
@@ -138,13 +146,26 @@ class LibraryBook(models.Model):
                     })
 
     def _create_product_category(self, current_category):
+        """
+        Create product category related to current book category.
+        
+        Args:
+            current_category: The book.category object(recordset) that are
+            create in product.category.
+
+        Returns:
+            obj: Newly created product.category record it same as current
+            book category.
+        """
         product_category = self.env['product.category'].search(
             [('book_categ_id','=',current_category.id)]
         )
         if product_category:
             return product_category
         if current_category.parent_categ_id:
-            product_category = self._create_product_category(current_category.parent_categ_id)
+            product_category = self._create_product_category(
+                current_category.parent_categ_id
+            )
         product_category = self.env['product.category'].create({
             'name':current_category.category_name,
             'parent_id':product_category.id if product_category else False,
@@ -153,6 +174,17 @@ class LibraryBook(models.Model):
         return product_category
     
     def _create_product_attribute(self, attribute_id, editions):
+        """
+        Create Edition attribute value related to current book editions.
+        
+        Args:
+            attribute_id: Edition's attribute id.
+            editions: current book's editions records.
+
+        Returns:
+            list : list of ids Newly created edition value in
+            product.attribute.value model.
+        """
         attribute_value_ids = []
         for edition in editions:
             attribute_value = self.env['product.attribute.value'].search(
@@ -167,8 +199,12 @@ class LibraryBook(models.Model):
         return attribute_value_ids
     
     def action_product_view(self):
-        book_product = self.env['product.template'].search([('book_id','=',self.id)])
-        print('\n\n',book_product)
+        """
+        Redirect to the of the related product.template list or form view.
+        """
+        book_product = self.env['product.template'].search([
+            ('book_id','=',self.id)
+        ])
         if len(book_product) == 1:
             return {
                 'type': 'ir.actions.act_window',

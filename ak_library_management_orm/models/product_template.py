@@ -12,6 +12,9 @@ class ProductTemplate(models.Model):
     )
 
     def action_open_book_view(self):
+        """
+        Redirect to the of the related library.book form view.
+        """
         return {
             'type': 'ir.actions.act_window',
             'res_model': 'library.book',

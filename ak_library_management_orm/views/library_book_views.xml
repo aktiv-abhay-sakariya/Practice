@@ -14,7 +14,7 @@
                         type="object"
                         string="Product"
                         class="oe_stat_button"
-                        icon="fa-cube"
+                        icon="oi-view-list"
                         invisible="is_product_created == False"/>
                 </div>
             </xpath>

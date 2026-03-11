@@ -10,7 +10,7 @@
                     name="action_open_book_view"
                     type="object"
                     string="Book category"
-                    icon="fa-book"
+                    icon="oi-group"
                     invisible="not book_categ_id">
                </button>
            </xpath>

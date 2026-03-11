@@ -13,7 +13,7 @@
                         name="action_open_product_view"
                         type="object"
                         string="Product category"
-                        icon="fa-book"
+                        icon="oi-group"
                         invisible="not product_categ_id">
                     </button>
                 </div>

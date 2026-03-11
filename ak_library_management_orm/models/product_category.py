@@ -11,6 +11,9 @@ class ProductCategory(models.Model):
     )
 
     def action_open_book_view(self):
+        """
+        Redirect to the of the related book.category form view.
+        """
         print('\n\n',self.book_categ_id == None)
         return {
             'type': 'ir.actions.act_window',

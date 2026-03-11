@@ -14,6 +14,15 @@ class Author(models.Model):
     
     @api.model_create_multi
     def create(self, vals):
+        """
+        Overrides the standard create method to genrate and set author sequence.
+
+        Args:
+            vals: A dictionary of fields and values of this model.
+
+        Returns:
+            id (object): recordset of created new record.
+        """
         for val in vals:
             if val.get('author_ref', 'New') == 'New':
                 val['author_ref'] = self.env['ir.sequence'].next_by_code(
@@ -30,7 +39,9 @@ class Author(models.Model):
             bool: True if a record remove succesfully in DB otherwise False.
         """
         for record in self:
-            record.env['author.book'].search([('author_id','=',record.id)]).unlink()
+            record.env['author.book'].search([
+                ('author_id','=',record.id)
+            ]).unlink()
         return super(Author, self).unlink()
     
     def copy(self, default=None):

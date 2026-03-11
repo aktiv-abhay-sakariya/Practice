@@ -89,7 +89,12 @@ class BookCategory(models.Model):
         return new_records
 
     def action_open_product_view(self):
-        book_category = self.env['product.category'].search([('book_categ_id','=',self.id)])
+        """
+        Redirect to the related product.category form view.
+        """
+        book_category = self.env['product.category'].search([
+            ('book_categ_id','=',self.id)
+        ])
         if book_category:
             return {
                 'type': 'ir.actions.act_window',

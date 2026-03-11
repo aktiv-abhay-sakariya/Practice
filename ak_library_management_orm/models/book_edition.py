@@ -24,7 +24,6 @@ class BookEdition(models.Model):
                 raise ValidationError("Price must be greater than zero.")
             if val.get('quantity', 0) <= 0:
                 raise ValidationError("Quantity must be greater than zero.")
-        self.env['product.attribute.value'].create({'attribute_id':9,'name':val.get('name')})
         return super(BookEdition, self).create(vals)
 
     def write(self, vals):

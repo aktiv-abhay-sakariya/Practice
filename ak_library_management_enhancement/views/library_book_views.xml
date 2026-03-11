@@ -24,10 +24,10 @@
                         class="btn-info"/>
                     <button name="action_done_show_wizard" string="Wizard"
                             type="object" class="oe_highlight"/>
-            </xpath>
-
-            <xpath expr="//field[@name='isbn']" position="before">
-                <field name="sequence" readonly="1"/>
+                    <button name="create_message" string="custom log"
+                            type="object" class="oe_highlight"/>
+                    <button name="create_activity" string="custom activity"
+                            type="object" class="oe_highlight"/>
             </xpath>
 
             <xpath expr="//field[@name='name']" position="attributes">
@@ -93,6 +93,10 @@
                        options="{
                        'convert_to_webp': True,
                        'preview_image': 'image_128'}"/>
+            </xpath>
+
+            <xpath expr="//sheet" position="after">
+                <chatter/>
             </xpath>
         </field>
     </record>

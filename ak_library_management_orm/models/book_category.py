@@ -1,11 +1,16 @@
 # -*- coding: utf-8 -*-
 
-from odoo import api, models
+from odoo import api, fields, models
 from odoo.exceptions import UserError
 
 
 class BookCategory(models.Model):
     _inherit = 'book.category'
+
+    product_categ_id = fields.One2many(
+        comodel_name = 'product.category',
+        inverse_name = 'book_categ_id',
+    )
 
     @api.model_create_multi
     def create(self, vals):
@@ -20,9 +25,7 @@ class BookCategory(models.Model):
             id (object): recordset of created new record
         """
         self._prevent_loop(vals)
-        record = super(BookCategory, self).create(vals)
-        self.env['product.category'].create({'name':record.category_name,'book_categ_id':record.id})
-        return record
+        return super(BookCategory, self).create(vals)
 
     def write(self, vals):
         """
@@ -35,7 +38,6 @@ class BookCategory(models.Model):
         Returns:
             bool: True if a record updated succesfully otherwise False.
         """
-        print(vals)
         self._prevent_loop(vals)
         return super(BookCategory, self).write(vals)
 
@@ -85,3 +87,16 @@ class BookCategory(models.Model):
         for new_record in new_records:
             new_record.category_name = f"{new_record.category_name} (COPY)"
         return new_records
+
+    def action_open_product_view(self):
+        book_category = self.env['product.category'].search([('book_categ_id','=',self.id)])
+        if book_category:
+            return {
+                'type': 'ir.actions.act_window',
+                'res_model': 'product.category',
+                'res_id': book_category.id,
+                'view_mode': 'form',
+                'context': {'active_id': self.id},
+                'target': 'current',        
+            }
+        return False

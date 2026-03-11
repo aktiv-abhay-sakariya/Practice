@@ -12,7 +12,13 @@
     'depends': [ 'sale_management', 'stock', 'ak_library_management'],
     'data': [
         'data/product_attribute_data.xml',
+        'data/library_book_sequence.xml',
+        'data/author_author_sequence.xml',
         'views/library_book_views.xml',
+        'views/author_author_views.xml',
+        'views/book_category_views.xml',
+        'views/product_category_views.xml',
+        'views/product_template_views.xml',
     ],
     'license': 'AGPL-3',
     'installable': True,

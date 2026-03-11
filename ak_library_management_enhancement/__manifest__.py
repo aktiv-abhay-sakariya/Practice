@@ -11,7 +11,7 @@
     'author': 'Abhay sakariya',
     'company': 'Aktiv software',
     'website': 'https://www.aktivsoftware.com/',
-    'depends': ['base', 'ak_library_management'],
+    'depends': ['ak_library_management', 'mail'],
     'data': [
         'security/ir.model.access.csv',
         'views/library_book_views.xml',

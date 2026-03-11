@@ -11,5 +11,5 @@ class BookEdition(models.Model):
 
     name = fields.Char(string = "Edition", required = True)
     active = fields.Boolean(string = 'Active', default = True)
-    quantity = fields.Integer(string = 'Quantity', required = True)
-    book_price = fields.Float(string = 'Book Price', required = True)
+    quantity = fields.Integer(string = 'Quantity')
+    book_price = fields.Float(string = 'Book Price')

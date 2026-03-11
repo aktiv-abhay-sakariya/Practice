@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="product_category_form_view_inherit_orm" model="ir.ui.view">
+        <field name="name">product.category.form.view.inherit.orm</field>
+        <field name="model">product.category</field>
+        <field name="inherit_id" ref="product.product_category_form_view" />
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button class="oe_stat_button"
+                    name="action_open_book_view"
+                    type="object"
+                    string="Book category"
+                    icon="fa-book"
+                    invisible="not book_categ_id">
+               </button>
+           </xpath>
+        </field>
+    </record>
+</odoo>

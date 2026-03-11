@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!-- inherit Form View: Detailed view for editing/creating an author-->
+    <record id="author_author_view_form_inherit_orm" model="ir.ui.view">
+        <field name="name">author.author.view.form.inherit.orm</field>
+        <field name="model">author.author</field>
+        <field name="inherit_id"
+               ref="ak_library_management.author_author_view_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//form/sheet/group" position="before">
+                <div class="oe_title">
+                    <h1>
+                        <field name="author_ref" readonly="1"/>
+                    </h1>
+                </div>
+            </xpath>
+            
+        </field>
+    </record>
+</odoo>

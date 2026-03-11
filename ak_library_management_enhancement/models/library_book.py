@@ -6,22 +6,14 @@ from odoo import api, fields, models
 
 
 class LibraryBook(models.Model):
-    _inherit = 'library.book'
+    _inherit = ['library.book', 'mail.thread', 'mail.activity.mixin']
 
     image = fields.Image(string='Book Image')
-    sequence = fields.Char(string='Sequence Number', store=True, default='New')
-
-
-    @api.model_create_multi
-    def create(self, vals):
-        """Create a new record with the given values."""
-        for val in vals:
-            if val.get('sequence', 'New') == 'New':
-                rec_date = val.get('publication_date')
-                sequence_number = self.env['ir.sequence'].next_by_code(
-                    'library.book', sequence_date=rec_date)
-                val['sequence'] = sequence_number
-        return super(LibraryBook, self).create(vals)
+    publication_date = fields.Date(
+        string='Date of Publication',
+        required=True,
+        tracking=True
+    )
 
     def find_book(self):
         for rec in self:
@@ -42,3 +34,17 @@ class LibraryBook(models.Model):
            'view_mode': 'form',
            'context': {'active_id': self.id},
         }
+    
+    def create_message(self):
+        self.message_post(
+            body=f"this is custome message",
+            message_type='comment',
+        )
+    
+    def create_activity(self):
+        self.activity_schedule(
+            'mail.mail_activity_data_email',
+            user_id=self.env.user.id,
+            note="Reminder to follow up",
+            date_deadline=fields.Date.today()
+        )

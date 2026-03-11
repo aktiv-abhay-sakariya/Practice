@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!-- inherit Form View: Detailed view for editing/creating a category-->
+    <record id='book_category_view_form_inherit_orm' model='ir.ui.view'>
+        <field name="name">book.category.view.form.inherit.orm</field>
+        <field name="model">book.category</field>
+        <field name="inherit_id"
+               ref="ak_library_management.book_category_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <div class="oe_button_box" name="button_box">
+                    <button class="oe_stat_button"
+                        name="action_open_product_view"
+                        type="object"
+                        string="Product category"
+                        icon="fa-book"
+                        invisible="not product_categ_id">
+                    </button>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

@@ -16,6 +16,7 @@
         'security/ir.model.access.csv',
         'views/sale_order_enhancement_view.xml',
         'wizard/trust_wizard_views.xml',
+        'wizard/product_wizard_views.xml',
     ],
     'license': 'AGPL-3',
     'installable': True,

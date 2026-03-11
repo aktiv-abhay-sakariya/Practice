@@ -8,12 +8,29 @@
                ref="ak_library_management.library_book_view_form"/>
         <field name="arch" type="xml">
 
-            <xpath expr="//header" position="inside">
-                    <button name="create_product"
+            <xpath expr="//sheet" position="inside">
+                <div class="oe_button_box" name="button_box">
+                    <button name='action_product_view'
                         type="object"
-                        string="Create Product"
-                        class="btn-primary"/>
+                        string="Product"
+                        class="oe_stat_button"
+                        icon="fa-cube"
+                        invisible="is_product_created == False"/>
+                </div>
             </xpath>
+
+            <xpath expr="//header" position="inside">
+                <button name="create_product"
+                    type="object"
+                    string="Create Product"
+                    class="btn-primary"
+                    invisible="is_product_created == True"/>
+            </xpath>
+
+            <xpath expr="//field[@name='isbn']" position="attributes">
+                <attribute name="readonly">1</attribute>
+            </xpath>
+            
         </field>
     </record>
 </odoo>

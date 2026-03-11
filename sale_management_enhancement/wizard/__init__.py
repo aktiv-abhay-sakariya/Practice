@@ -1,1 +1,1 @@
-from . import trust_wizard
+from . import trust_wizard, product_wizard

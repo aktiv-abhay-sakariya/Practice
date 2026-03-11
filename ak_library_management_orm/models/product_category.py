@@ -10,11 +10,13 @@ class ProductCategory(models.Model):
         string = 'book product',
     )
 
-    @api.model_create_multi
-    def create(self, vals):
-        # print(vals)
-        # vals['name'] = vals['book_categ_id']
-        record = super().create(vals)
-        print(record)
-        # parent_id = self.env['product.category'].search('name','=',vals.get('parent_categ_id'))
-        return record
+    def action_open_book_view(self):
+        print('\n\n',self.book_categ_id == None)
+        return {
+            'type': 'ir.actions.act_window',
+            'res_model': 'book.category',
+            'res_id': self.book_categ_id.id,
+            'view_mode': 'form',
+            'context': {'active_id': self.id},
+            'target': 'current',
+        }

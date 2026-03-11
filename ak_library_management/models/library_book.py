@@ -10,9 +10,9 @@ class LibraryBook(models.Model):
     _description = "Books"
 
     name = fields.Char(string="Book Title", required=True)
-    isbn = fields.Char(string='ISBN Number', required=True)
+    isbn = fields.Char(string='ISBN Number')
     publication_date = fields.Date(string='Date of Publication', required=True)
-    price = fields.Float(string='Book Price', required=True)
+    price = fields.Float(string='Book Price')
     pages = fields.Integer(string='Number of Pages')
     description = fields.Html(string='Book Summary')
     image_1920 = fields.Image(string='Book Image')

@@ -1,10 +1,25 @@
 # -*- coding: utf-8 -*-
 
-from odoo import models
+from odoo import api, fields, models
 
 
 class Author(models.Model):
     _inherit = 'author.author'
+    
+    author_ref = fields.Char(
+        string="Reference",
+        readonly=True,
+        default="New"
+    )
+    
+    @api.model_create_multi
+    def create(self, vals):
+        for val in vals:
+            if val.get('author_ref', 'New') == 'New':
+                val['author_ref'] = self.env['ir.sequence'].next_by_code(
+                    'author.author'
+                )
+        return super().create(vals)
 
     def unlink(self):
         """

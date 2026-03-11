@@ -6,6 +6,8 @@ from odoo.exceptions import ValidationError
 
 class LibraryBook(models.Model):
     _inherit = 'library.book'
+    
+    is_product_created = fields.Boolean(string='Show My Button',default=False)
 
     def default_get(self, vals):
         """
@@ -38,6 +40,10 @@ class LibraryBook(models.Model):
             id (object): recordset of created new record.
         """
         for val in vals:
+            if not val.get('isbn'):
+                val['isbn'] = self.env['ir.sequence'].next_by_code(
+                    'library.book'
+                )
             if not val.get('category_id'):
                 raise ValidationError("Category is required.")
             if not val.get('edition_ids'):
@@ -100,17 +106,83 @@ class LibraryBook(models.Model):
         return super(LibraryBook, self).unlink()
 
     def create_product(self):
-        print('this is button method top')
-        if self.author_id:
-            # self.env['product_attribute_value_product_template_attribute_line_rel'].create()
-
-            vals = {'name':self.name, 'type':'consu' ,'is_storable':True, 'book_id':self.id}
-            print(vals)
-            product_tmpl_id = self.env['product.template'].create(vals)
+        product_template = self.env['product.template']
+        for record in self:
             
-            # print('okkk - ')
-            # # book_id = self.env['author.book'].search([('author_id','=',self.author_id),('book_id','=',self.id)])
-        else:
-            print('author not select')
-        print('this is button method last')
+            category = record._create_product_category(record.category_id)
+            
+            attribute_id = self.env['product.attribute'].search([('name','=','Editions')]).id
+            attribute = record._create_product_attribute(attribute_id, record.edition_ids)
+            
+            product = product_template.create({
+                'name':record.name,
+                'type':'consu',
+                'is_storable':True,
+                'categ_id':category.id,
+                'book_id':record.id,
+                'is_book_product':True,
+                'attribute_line_ids':[Command.create({
+                    'attribute_id':attribute_id,
+                    'value_ids':[Command.set(attribute)]
+                })]
+            })
+            record.is_product_created = True
+            for variant in product.product_variant_ids:
+                book_edition = self.env['book.edition'].search(
+                    [('name', '=', variant.product_template_attribute_value_ids.name)],
+                    limit=1)
+                if book_edition:
+                    variant.write({
+                        'lst_price': book_edition.book_price,
+                        'qty_available':book_edition.quantity
+                    })
 
+    def _create_product_category(self, current_category):
+        product_category = self.env['product.category'].search(
+            [('book_categ_id','=',current_category.id)]
+        )
+        if product_category:
+            return product_category
+        if current_category.parent_categ_id:
+            product_category = self._create_product_category(current_category.parent_categ_id)
+        product_category = self.env['product.category'].create({
+            'name':current_category.category_name,
+            'parent_id':product_category.id if product_category else False,
+            'book_categ_id':current_category.id
+        })
+        return product_category
+    
+    def _create_product_attribute(self, attribute_id, editions):
+        attribute_value_ids = []
+        for edition in editions:
+            attribute_value = self.env['product.attribute.value'].search(
+                [('name', '=', edition.name)]
+            )
+            if not attribute_value:
+                attribute_value = self.env['product.attribute.value'].create({
+                    'attribute_id':attribute_id,
+                    'name':edition.name
+                })
+            attribute_value_ids.append(attribute_value.id)
+        return attribute_value_ids
+    
+    def action_product_view(self):
+        book_product = self.env['product.template'].search([('book_id','=',self.id)])
+        print('\n\n',book_product)
+        if len(book_product) == 1:
+            return {
+                'type': 'ir.actions.act_window',
+                'res_model': 'product.template',
+                'res_id': book_product.id,
+                'view_mode': 'form',
+                'context': {'active_id': self.id},
+                'target': 'current',
+            }
+        return {
+            'type': 'ir.actions.act_window',
+            'res_model': 'product.template',
+            'view_mode': 'list,form',
+            'domain': [('book_id', '=', self.id)],
+            'context': {'active_id': self.id},
+            'target': 'current',
+        }

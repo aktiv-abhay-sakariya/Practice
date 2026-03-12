@@ -40,10 +40,9 @@ class LibraryBook(models.Model):
             id (object): recordset of created new record.
         """
         for val in vals:
-            if not val.get('isbn'):
-                val['isbn'] = self.env['ir.sequence'].next_by_code(
-                    'library.book'
-                )
+            val['isbn'] = self.env['ir.sequence'].next_by_code(
+                'library.book'
+                ) or 'NEW'
             if not val.get('category_id'):
                 raise ValidationError("Category is required.")
             if not val.get('edition_ids'):
@@ -222,3 +221,12 @@ class LibraryBook(models.Model):
             'context': {'active_id': self.id},
             'target': 'current',
         }
+        
+    def send_email(self):
+        template = self.env.ref('ak_library_management_orm.email_template_book_approved')
+        template.send_mail(self.id, force_send=True, email_values={'email_to':self.env['author.author'].browse(1).email})
+        
+        self.message_post(
+            body=f"Mail sent succesfully",
+            message_type='comment',
+        )

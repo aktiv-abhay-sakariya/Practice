@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!-- List View: Displays a table of book edition (name, active)-->
+    <record id='book_edition_view_list' model='ir.ui.view'>
+        <field name="name">book.edition.view.list</field>
+        <field name="model">book.edition</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name='name'/>
+                <field name="active" optional="hide"/>
+                <field name='quantity'/>
+                <field name='book_price'/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Form View: Detailed view for editing/creating a book edition-->
+    <record id='book_edition_view_form' model='ir.ui.view'>
+        <field name="name">book.edition.view.form</field>
+        <field name="model">book.edition</field>
+        <field name="arch" type="xml">
+            <form string="Idea form">
+                <header></header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name='name'/>
+                            <field name='active'/>
+                        </group>
+                        <group>
+                            <field name='quantity'/>
+                            <field name='book_price'/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Search View: Enables filtering and searching on
+         book editions (name) -->
+    <record id='book_edition_view_search' model='ir.ui.view'>
+        <field name="name">book.edition.view.search</field>
+        <field name="model">book.edition</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name='name'/>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action: Defines how to open the editios records -->
+    <record model="ir.actions.act_window" id="menu_access_edition">
+        <field name="name">Edition</field>
+        <field name="res_model">book.edition</field>
+        <field name="view_mode">list,form</field>
+        <field name="help">Add book edition</field>
+    </record>
+    
+    <menuitem id="configuration_menu_access"
+              name="Configuration" parent="main_menu_access"/>
+    <menuitem id="sub_menu_access_edition" name="Edition"
+              parent="configuration_menu_access" action="menu_access_edition"/>
+</odoo>

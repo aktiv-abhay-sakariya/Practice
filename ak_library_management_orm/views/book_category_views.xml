@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
-    <!-- inherit Form View: Detailed view for editing/creating a category-->
+    <!-- inherit Form View: add smart button on category-->
     <record id='book_category_view_form_inherit_orm' model='ir.ui.view'>
         <field name="name">book.category.view.form.inherit.orm</field>
         <field name="model">book.category</field>

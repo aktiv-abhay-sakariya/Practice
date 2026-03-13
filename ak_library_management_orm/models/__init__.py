@@ -6,5 +6,5 @@ from . import book_edition
 from . import book_category
 from . import product_category
 from . import product_template
-from . import res_users
-from . import sale_order
+from . import res_users 
+from . import sale_order 

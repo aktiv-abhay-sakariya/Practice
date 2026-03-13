@@ -1,13 +1,18 @@
 # -*- coding: utf-8 -*-
 
-from odoo import api, fields, models, Command
+from odoo import api, fields, models, Command, _
 from odoo.exceptions import ValidationError
 
 
 class LibraryBook(models.Model):
     _inherit = 'library.book'
     
-    is_product_created = fields.Boolean(string='Show My Button',default=False)
+    is_product_created = fields.Boolean(
+        string='Show My Button',
+        copy=False,
+        default=False
+    )
+    isbn = fields.Char(string='ISBN Number', copy=False, default="New")
 
     def default_get(self, vals):
         """
@@ -40,10 +45,10 @@ class LibraryBook(models.Model):
             id (object): recordset of created new record.
         """
         for val in vals:
-            if not val.get('isbn'):
+            if val.get('isbn', _("New")) == _("New"):
                 val['isbn'] = self.env['ir.sequence'].next_by_code(
                     'library.book'
-                )
+                ) or _("New")
             if not val.get('category_id'):
                 raise ValidationError("Category is required.")
             if not val.get('edition_ids'):
@@ -133,16 +138,17 @@ class LibraryBook(models.Model):
                 })]
             })
             record.is_product_created = True
+            product.list_price = 0
             for variant in product.product_variant_ids:
-                book_edition = self.env['book.edition'].search([(
-                    'name',
-                    '=',
-                    variant.product_template_attribute_value_ids.name
-                )],limit=1)
+                for ptav in variant.product_template_attribute_value_ids:
+                    book_edition = self.env['book.edition'].search([
+                        ('name', '=', ptav.name)
+                    ],limit=1)
                 if book_edition:
+                    ptav.price_extra = book_edition.book_price
                     variant.write({
-                        'lst_price': book_edition.book_price,
-                        'qty_available':book_edition.quantity
+                        'lst_price' : book_edition.book_price,
+                        'qty_available' : book_edition.quantity,
                     })
 
     def _create_product_category(self, current_category):

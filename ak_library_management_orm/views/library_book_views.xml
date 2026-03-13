@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
-    <!-- inherit Form View: Detailed view for editing/creating a book-->
+    <!-- inherit Form View: add smart and header button in book-->
     <record id='library_book_view_form_inherit_orm' model='ir.ui.view'>
         <field name="name">library.book.view.form.inherit.orm</field>
         <field name="model">library.book</field>

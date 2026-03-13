@@ -1,29 +1,39 @@
 # -*- coding: utf-8 -*-
 
-from odoo import api, fields, models
+from odoo import api, fields, models, _
 from odoo.exceptions import UserError, ValidationError
 
 
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
-    approve_need = fields.Boolean(default=False)
+    approve_need = fields.Boolean()
     
     def action_confirm(self):
-        print(self.approve_need)
         low_products = [line.product_id.name for line in self.order_line if line.product_id.qty_available < 5]
         if low_products and not self.approve_need:
-            self.write({'approve_need':True})
-            print(self.approve_need)
-            raise UserError(f"Approval needed!\nThe following books have low stock:{low_products}")
-        return self.action_confirm()
+            self.approve_need = True
+            return {
+                'name': _("Product quantity warning"),
+                'type': 'ir.actions.act_window',
+                'res_model': 'product.quantity.wizard',
+                'target': 'new',
+                'view_mode': 'form',
+                'context': {
+                    'active_id': self.id,
+                    'default_message': low_products
+                },
+            }
+        self.approve_need = False
+        return super().action_confirm()
 
     def action_approve(self):
         if not self.env.user.is_manager:
             raise ValidationError(f"only manager can approve the order")
-        return super().action_confirm()
+        return self.action_confirm()
 
     def action_reject(self):
         if not self.env.user.is_manager:
             raise ValidationError(f"only manager can reject the order")
+        self.approve_need = False
         return self.action_cancel()

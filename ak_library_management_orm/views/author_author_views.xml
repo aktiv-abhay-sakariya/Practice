@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
-    <!-- inherit Form View: Detailed view for editing/creating an author-->
+    <!-- inherit Form View: add new field author-->
     <record id="author_author_view_form_inherit_orm" model="ir.ui.view">
         <field name="name">author.author.view.form.inherit.orm</field>
         <field name="model">author.author</field>

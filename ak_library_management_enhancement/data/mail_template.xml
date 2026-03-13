@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="email_template_book_approved" model="mail.template">
+        <field name="name">Library: Book Approved</field>
+        <field name="model_id" ref="ak_library_management_orm.model_library_book"/>
+        <field name="subject">Book Approved</field>
+        <field name="email_from">{{ user.company_id.email_formatted }}</field>
+        <field name="email_to">{{ object.author_id.email }}</field>
+        <field name="body_html" type="html">
+            <div>
+                <p>
+                    Dear <t t-out="object.author_id.name"/>,
+                </p>
+                <p>
+                    Please renew your membership with us.
+                </p>
+                <p>
+                    <b>Member Details:</b><br/>
+                    Name: <t t-out="object.author_id.name"/><br/>
+                    email: <t t-out="object.author_id.email"/><br/>
+                </p>
+                    <p>Thank you!</p>
+                </div>
+        </field>
+    </record>
+</odoo>

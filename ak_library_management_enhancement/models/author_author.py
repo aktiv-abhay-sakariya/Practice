@@ -9,7 +9,7 @@ class Author(models.Model):
     _name = 'author.author'
     _inherit = ['author.author', 'mail.thread', 'mail.activity.mixin']
 
-    total_book = fields.Integer(string='Total Book', compute='_get_book_domain')
+    total_book = fields.Integer(string='Total Book')
     author_status = fields.Selection([
         ('new', 'New'),
         ('active', 'Active'),
@@ -21,7 +21,9 @@ class Author(models.Model):
     )
 
     def _get_book_domain(self):
+        self.ensure_one()
         self.total_book = self.env['library.book'].search_count([('author_id', '=', self.id)])
+        return [('author_id', '=', self.id)]
 
     def book_info(self):
         self.ensure_one()
@@ -29,9 +31,13 @@ class Author(models.Model):
             'type': 'ir.actions.act_window',
             'res_model': 'library.book',
             'view_mode': 'list,form',
-            'domain': [('author_id', '=', self.id)],
+            'domain': self._get_book_domain(),
             'context': {
                 'default_author_id': self.id,
             },
             'target': 'current',
         }
+
+    def total_book_count(self):
+        self.total_book = self.env['library.book'].search_count([('author_id', '=', self.id)])
+

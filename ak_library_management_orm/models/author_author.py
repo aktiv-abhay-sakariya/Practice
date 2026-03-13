@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from odoo import api, fields, models, _
+from odoo import api, fields, models
 
 
 class Author(models.Model):
@@ -8,9 +8,8 @@ class Author(models.Model):
     
     author_ref = fields.Char(
         string="Reference",
-        copy=False,
-        default="New",
-        groups='ak_library_management_orm.manager_access_group'
+        readonly=True,
+        default="New"
     )
     
     @api.model_create_multi
@@ -25,7 +24,7 @@ class Author(models.Model):
             id (object): recordset of created new record.
         """
         for val in vals:
-            if val.get('author_ref', "New") == "New":
+            if val.get('author_ref', 'New') == 'New':
                 val['author_ref'] = self.env['ir.sequence'].next_by_code(
                     'author.author'
                 )

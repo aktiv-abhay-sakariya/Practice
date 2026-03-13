@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
-    <!-- inherit Form View: make isbn field is readonly-->
+    <!-- inherit Form View: Detailed view for editing/creating a book-->
     <record id='library_book_view_form_inherit_orm' model='ir.ui.view'>
         <field name="name">library.book.view.form.inherit.orm</field>
         <field name="model">library.book</field>
@@ -8,17 +8,29 @@
                ref="ak_library_management.library_book_view_form"/>
         <field name="arch" type="xml">
 
+            <xpath expr="//sheet" position="inside">
+                <div class="oe_button_box" name="button_box">
+                    <button name='action_product_view'
+                        type="object"
+                        string="Product"
+                        class="oe_stat_button"
+                        icon="oi-view-list"
+                        invisible="is_product_created == False"/>
+                </div>
+            </xpath>
+
+            <xpath expr="//header" position="inside">
+                <button name="create_product"
+                    type="object"
+                    string="Create Product"
+                    class="btn-primary"
+                    invisible="is_product_created == True"/>
+            </xpath>
+
             <xpath expr="//field[@name='isbn']" position="attributes">
                 <attribute name="readonly">1</attribute>
             </xpath>
             
-            <xpath expr="//header" position="inside">
-                    <button name="find_book"
-                        type="object"
-                        string="Email"
-                        class="btn-primary"/>
-            </xpath>
-
         </field>
     </record>
 </odoo>

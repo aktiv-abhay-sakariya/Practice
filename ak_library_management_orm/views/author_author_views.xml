@@ -5,7 +5,7 @@
         <field name="name">author.author.view.form.inherit.orm</field>
         <field name="model">author.author</field>
         <field name="inherit_id"
-               ref="ak_library_management_enhancement.author_author_view_form_inherit"/>
+               ref="ak_library_management.author_author_view_form"/>
         <field name="arch" type="xml">
 
             <xpath expr="//form/sheet/group" position="before">
@@ -15,11 +15,7 @@
                     </h1>
                 </div>
             </xpath>
-
-            <!-- <xpath expr="//field[@name='author_status']" position="attributes">
-                <attribute name="groups">ak_library_management_orm.manager_access_group</attribute>
-            </xpath> -->
-
+            
         </field>
     </record>
 </odoo>

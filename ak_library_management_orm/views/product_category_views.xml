@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
+    <!-- inherit Form View: Detailed view for editing/creating product category-->
     <record id="product_category_form_view_inherit_orm" model="ir.ui.view">
         <field name="name">product.category.form.view.inherit.orm</field>
         <field name="model">product.category</field>

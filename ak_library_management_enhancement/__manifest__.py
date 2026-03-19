@@ -13,12 +13,10 @@
     'website': 'https://www.aktivsoftware.com/',
     'depends': ['ak_library_management', 'mail'],
     'data': [
-        'security/ir.model.access.csv',
         'views/library_book_views.xml',
         'views/book_category_views.xml',
         'views/book_edition_views.xml',
         'views/author_author_views.xml',
-        'wizard/wizard_book_views.xml',
     ],
     'license': 'AGPL-3',
     'installable': True,

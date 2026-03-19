@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <!-- inherit Form View: add new field in user-->
     <record id="res_users_view_form_orm" model="ir.ui.view">
         <field name="name">res.users.form.inherit.orm</field>
         <field name="model">res.users</field>

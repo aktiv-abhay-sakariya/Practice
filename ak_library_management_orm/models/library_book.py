@@ -12,6 +12,10 @@ class LibraryBook(models.Model):
         copy=False,
         default=False
     )
+    total_products = fields.Integer(
+        string = "Products",
+        compute="_compute_product_count"
+    )
     isbn = fields.Char(string='ISBN Number', copy=False, default="New")
 
     def default_get(self, vals):
@@ -122,7 +126,7 @@ class LibraryBook(models.Model):
             attribute_id = self.env['product.attribute'].search([
                 ('name','=','Editions')
             ]).id
-            attribute = record._create_product_attribute(
+            attribute_id_values = record._create_product_attribute(
                 attribute_id, record.edition_ids
             )
             product = self.env['product.template'].create({
@@ -134,19 +138,19 @@ class LibraryBook(models.Model):
                 'is_book_product':True,
                 'attribute_line_ids':[Command.create({
                     'attribute_id':attribute_id,
-                    'value_ids':[Command.set(attribute)]
+                    'value_ids':[Command.set(attribute_id_values)]
                 })]
             })
             record.is_product_created = True
             product.list_price = 0
-            for variant in product.product_variant_ids:
-                for ptav in variant.product_template_attribute_value_ids:
+            for product_variant in product.product_variant_ids:
+                for ptav in product_variant.product_template_attribute_value_ids:
                     book_edition = self.env['book.edition'].search([
                         ('name', '=', ptav.name)
                     ],limit=1)
                 if book_edition:
                     ptav.price_extra = book_edition.book_price
-                    variant.write({
+                    product_variant.write({
                         'lst_price' : book_edition.book_price,
                         'qty_available' : book_edition.quantity,
                     })
@@ -208,16 +212,15 @@ class LibraryBook(models.Model):
         """
         Redirect to the of the related product.template list or form view.
         """
-        book_product = self.env['product.template'].search([
+        book_products = self.env['product.template'].search([
             ('book_id','=',self.id)
         ])
-        if len(book_product) == 1:
+        if len(book_products) == 1:
             return {
                 'type': 'ir.actions.act_window',
                 'res_model': 'product.template',
-                'res_id': book_product.id,
+                'res_id': book_products.id,
                 'view_mode': 'form',
-                'context': {'active_id': self.id},
                 'target': 'current',
             }
         return {
@@ -225,6 +228,15 @@ class LibraryBook(models.Model):
             'res_model': 'product.template',
             'view_mode': 'list,form',
             'domain': [('book_id', '=', self.id)],
-            'context': {'active_id': self.id},
             'target': 'current',
         }
+    
+    @api.depends('is_product_created')
+    def _compute_product_count(self):
+        """
+        Count the total product of the book.
+        """
+        book_products = len(self.env['product.template'].search([
+            ('book_id','=',self.id)
+        ]))
+        self.total_products = book_products

@@ -1,30 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-
+    <!-- inherit Form View: add smart button and their visibility in product-->
     <record id="sale_order_form_view_orm" model="ir.ui.view">
         <field name="name">sale.order.form.view.orm</field>
         <field name="model">sale.order</field>
         <field name="inherit_id" ref="sale.view_order_form"/>
         <field name="arch" type="xml">
         
-            <xpath expr="//button[@name='action_confirm'][2]" position="attributes">
-                <attribute name='invisible'>approve_need == True</attribute>
+            <xpath expr="//button[@name='action_confirm'][1]"
+                position="attributes">
+                <attribute name='invisible'>
+                    approve_need or state != 'sent'
+                </attribute>
             </xpath>
 
-            <xpath expr="//field[@name='pricelist_id']" position="after">
-                <field name="approve_need" invisible="1"/>
+            <xpath expr="//button[@name='action_confirm'][2]"
+                position="attributes">
+                <attribute name='context'>
+                    {'default_approve_need':True}
+                </attribute>
+                <attribute name='invisible'>
+                    approve_need or state != 'draft' or context.get('default_approve_need')
+                </attribute>
             </xpath>
 
             <xpath expr="//header" position="inside">
                 <button string="Approve"
-                name="action_approve"
-                type="object"
-                invisible="approve_need == False"/>
+                        name="action_approve"
+                        type="object"
+                        context="{'default_approve_need':True}"
+                        invisible="approve_need or not is_manager_user or state != 'draft'"/>
                 
                 <button string="Reject"
-                name="action_reject"
-                type="object"
-                invisible="approve_need == False"/>
+                        name="action_reject"
+                        type="object"
+                        invisible="not approve_need or not is_manager_user or state != 'draft'"/>
             </xpath>
         </field>
     </record>

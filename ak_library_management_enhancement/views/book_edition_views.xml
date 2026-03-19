@@ -38,7 +38,10 @@
                 'view_mode':'list',
                 'view_id':ref('ak_library_management.book_edition_view_list')
             }),
-            (0,0,{'view_mode':'form','view_id':ref('book_edition_view_form_inherit')})
+            (0,0,{
+                'view_mode':'form',
+                'view_id':ref('book_edition_view_form_inherit')
+            })
         ]"/>
     </record>
 

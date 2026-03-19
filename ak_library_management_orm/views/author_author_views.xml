@@ -5,7 +5,7 @@
         <field name="name">author.author.view.form.inherit.orm</field>
         <field name="model">author.author</field>
         <field name="inherit_id"
-               ref="ak_library_management.author_author_view_form"/>
+            ref="ak_library_management_enhancement.author_author_view_form_inherit"/>
         <field name="arch" type="xml">
 
             <xpath expr="//form/sheet/group" position="before">

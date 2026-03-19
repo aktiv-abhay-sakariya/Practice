@@ -2,16 +2,15 @@
 
 {
     'name': 'library management ORM',
-    'version': '19.0.1.2.0',
+    'version': '19.0.1.4.0',
     'summary': """Manage Books""",
     'description': """We can Perform ORM method operations.""",
     'category': 'Library management',
     'author': 'Abhay sakariya',
     'company': 'Aktiv software',
     'website': 'https://www.aktivsoftware.com/',
-    'depends': [ 'sale_management', 'stock', 'ak_library_management'],
+    'depends': ['sale_management','stock','ak_library_management_enhancement'],
     'data': [
-        'security/ir.model.access.csv',
         'data/product_attribute_data.xml',
         'data/library_book_sequence.xml',
         'data/author_author_sequence.xml',
@@ -22,7 +21,6 @@
         'views/product_template_views.xml',
         'views/res_users_views.xml',
         'views/sale_order_views.xml',
-        'wizard/quantity_warning_wizard_view.xml',
     ],
     'license': 'AGPL-3',
     'installable': True,

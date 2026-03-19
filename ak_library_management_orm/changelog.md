@@ -22,8 +22,17 @@ All notable changes to this project will be documented in this file.
 - Updated field Add copy=false in isbn and author_ref felds.
 
 [19.0.1.2.0] :
-- inherit product.template and product.category model and their form view.
+- Inherit product.template and product.category model and their form view.
 - Added header button in library.book model that create record in
 product.template model.
 - Added some smart button in library.book, book.category, product.category and
 product.template model and set visibility of that button.
+
+[19.0.1.3.0] :
+- Removed unnecessary import and print statement.
+- Added total count in all the smart buttons.
+
+[19.0.1.4.0] :
+- Inherit add new field in res.user model.
+- Inherit sale.order view and add button and set visiblity.
+- Added wizard and open it. when confirm button click in sale.order model.

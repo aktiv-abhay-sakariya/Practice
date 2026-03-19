@@ -5,20 +5,23 @@
         <field name="name">book.category.view.form.inherit.orm</field>
         <field name="model">book.category</field>
         <field name="inherit_id"
-               ref="ak_library_management.book_category_view_form"/>
+               ref="ak_library_management_enhancement.book_category_view_form_inherit"/>
         <field name="arch" type="xml">
             <xpath expr="//sheet" position="inside">
                 <div class="oe_button_box" name="button_box">
                     <button class="oe_stat_button"
-                        name="action_open_product_view"
-                        type="object"
-                        string="Product category"
-                        icon="oi-group"
-                        invisible="not product_categ_id">
+                            name="action_open_product_category_view"
+                            type="object"
+                            icon="oi-group"
+                            invisible="not product_categ_id">
+                        <div>
+                            <field name="total_product_categories" 
+                                string="Categories" 
+                                widget="statinfo"/>
+                        </div>
                     </button>
                 </div>
             </xpath>
         </field>
     </record>
-
 </odoo>

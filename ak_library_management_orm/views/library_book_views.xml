@@ -5,26 +5,31 @@
         <field name="name">library.book.view.form.inherit.orm</field>
         <field name="model">library.book</field>
         <field name="inherit_id"
-               ref="ak_library_management.library_book_view_form"/>
+               ref="ak_library_management_enhancement.library_book_view_form_inherit"/>
         <field name="arch" type="xml">
 
             <xpath expr="//sheet" position="inside">
                 <div class="oe_button_box" name="button_box">
                     <button name='action_product_view'
-                        type="object"
-                        string="Product"
-                        class="oe_stat_button"
-                        icon="oi-view-list"
-                        invisible="is_product_created == False"/>
+                            type="object"
+                            class="oe_stat_button"
+                            icon="oi-view-list"
+                            invisible="is_product_created == False">
+                        <div>
+                            <field name="total_products" 
+                                string="Product" 
+                                widget="statinfo"/>
+                        </div>
+                    </button>
                 </div>
             </xpath>
 
             <xpath expr="//header" position="inside">
                 <button name="create_product"
-                    type="object"
-                    string="Create Product"
-                    class="btn-primary"
-                    invisible="is_product_created == True"/>
+                        type="object"
+                        string="Create Product"
+                        class="btn-primary"
+                        invisible="is_product_created == True"/>
             </xpath>
 
             <xpath expr="//field[@name='isbn']" position="attributes">

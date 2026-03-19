@@ -11,6 +11,10 @@ class BookCategory(models.Model):
         comodel_name = 'product.category',
         inverse_name = 'book_categ_id',
     )
+    total_product_categories = fields.Integer(
+        string="Categories",
+        compute="_compute_product_categories_count"
+    )
 
     @api.model_create_multi
     def create(self, vals):
@@ -88,7 +92,7 @@ class BookCategory(models.Model):
             new_record.category_name = f"{new_record.category_name} (COPY)"
         return new_records
 
-    def action_open_product_view(self):
+    def action_open_product_category_view(self):
         """
         Redirect to the related product.category form view.
         """
@@ -101,7 +105,16 @@ class BookCategory(models.Model):
                 'res_model': 'product.category',
                 'res_id': book_category.id,
                 'view_mode': 'form',
-                'context': {'active_id': self.id},
                 'target': 'current',        
             }
         return False
+
+    @api.depends('product_categ_id.book_categ_id')
+    def _compute_product_categories_count(self):
+        """
+        Count the total product categories of the book category.
+        """
+        book_categorys = self.env['product.category'].search([
+            ('book_categ_id','=',self.id)
+        ])
+        self.total_product_categories = len(book_categorys)

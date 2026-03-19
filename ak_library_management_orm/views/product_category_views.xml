@@ -8,11 +8,15 @@
         <field name="arch" type="xml">
             <xpath expr="//div[@name='button_box']" position="inside">
                 <button class="oe_stat_button"
-                    name="action_open_book_view"
-                    type="object"
-                    string="Book category"
-                    icon="oi-group"
-                    invisible="not book_categ_id">
+                        name="action_open_book_category_view"
+                        type="object"
+                        icon="oi-group"
+                        invisible="not book_categ_id">
+                    <div>
+                        <field name="total_book_categories" 
+                            string="Categories" 
+                            widget="statinfo"/>
+                    </div>
                </button>
            </xpath>
         </field>

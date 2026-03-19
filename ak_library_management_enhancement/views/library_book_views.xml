@@ -9,27 +9,6 @@
         <field name="mode">primary</field>
         <field name="arch" type="xml">
 
-            <xpath expr="//header" position="inside">
-                    <button name="find_book"
-                        type="object"
-                        string="Search"
-                        class="btn-primary"/>
-                    <button name="find_book_count"
-                        type="object"
-                        string="Search count"
-                        class="btn-primary"/>
-                    <button name="%(ak_library_management.menu_access_author)d"
-                        type="action"
-                        string="Open Author"
-                        class="btn-info"/>
-                    <button name="action_done_show_wizard" string="Wizard"
-                            type="object" class="oe_highlight"/>
-                    <button name="create_message" string="custom log"
-                            type="object" class="oe_highlight"/>
-                    <button name="create_activity" string="custom activity"
-                            type="object" class="oe_highlight"/>
-            </xpath>
-
             <xpath expr="//field[@name='name']" position="attributes">
                 <attribute name="help">Title of Book</attribute>
             </xpath>
@@ -113,7 +92,10 @@
                 'view_mode':'list',
                 'view_id':ref('ak_library_management.library_book_view_list')
             }),
-            (0,0,{'view_mode':'form','view_id':ref('library_book_view_form_inherit')})
+            (0,0,{
+                'view_mode':'form',
+                'view_id':ref('library_book_view_form_inherit')
+            })
         ]"/>
     </record>
 

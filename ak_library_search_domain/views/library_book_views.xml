@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!-- inherit Form View: add field in smart button in book-->
+    <record id='library_book_view_form_inherit_domain' model='ir.ui.view'>
+        <field name="name">library.book.view.form.inherit.domain</field>
+        <field name="model">library.book</field>
+        <field name="inherit_id"
+            ref="ak_library_management_enhancement.library_book_view_form_inherit"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//button[@name='action_product_view']//field"
+                position="replace">
+                <field name="total_products" 
+                    string="Product" 
+                    widget="statinfo"/>  
+            </xpath>
+            
+        </field>
+    </record>
+
+    <!-- inherit Search View: add new filter in book-->
+    <record id='library_book_view_search_inherit_domain' model='ir.ui.view'>
+        <field name="name">library.book.view.search.inherit.domain</field>
+        <field name="model">library.book</field>
+        <field name="inherit_id"
+            ref="ak_library_management.library_book_view_search"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//search" position="inside">
+                <filter name="Low Price" 
+                    string="Low Price"
+                    domain="[('price','&lt;',200)]"/>  
+            </xpath>
+            
+        </field>
+    </record>
+</odoo>

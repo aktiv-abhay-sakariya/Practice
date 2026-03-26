@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+   <!-- Action: Defines how to open the author records -->
+   <record id="menu_active_author" model="ir.actions.act_window">
+      <field name="name">Active Author</field>
+      <field name="res_model">author.author</field>
+      <field name="view_mode">list,form</field>
+      <field name="view_ids" eval="[
+         (5,0,0),
+         (0,0,{
+            'view_mode':'list',
+            'view_id':ref('ak_library_management_enhancement.author_author_view_list_inherit')
+         }),
+         (0,0,{
+            'view_mode':'form',
+            'view_id':ref('ak_library_management_enhancement.author_author_view_form_inherit')
+         })
+      ]"/>
+      <field name='domain'>[('author_status','=','active')]</field>
+   </record>
+
+    
+   <menuitem id="sub_menu_access_active_author"
+                name="Active Author"
+                parent="ak_library_management.menu_access" 
+                action="menu_active_author"
+                sequence='2'/>
+</odoo>

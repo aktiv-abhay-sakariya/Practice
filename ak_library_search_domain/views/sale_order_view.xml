@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="sale_order_form_inherit_books" model="ir.ui.view">
+        <field name="name">sale.order.form.books</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+
+            <!-- Add buttons above order_line -->
+            <xpath expr="//field[@name='order_line']" position="before">
+
+                <!-- Add Book Button -->
+                <button name="action_open_add_book_wizard"
+                        type="object"
+                        string="Add Books"
+                        class="btn-primary"
+                        invisible="is_book_added"/>
+
+                <!-- Edit Book Button -->
+                <button name="action_open_edit_book_wizard"
+                        type="object"
+                        string="Edit Books"
+                        invisible="not is_book_added"/>
+
+            </xpath>
+
+            <!-- Make order line readonly -->
+            <xpath expr="//field[@name='order_line']" position="attributes">
+                <attribute name="readonly">
+                    "is_book_added"
+                </attribute>
+            </xpath>
+
+        </field>
+    </record>
+</odoo>

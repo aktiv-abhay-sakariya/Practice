@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data noupdate='1'>
+
+        <!-- Mail Template :  Book Released confirmation sent to author -->
+        <record id="email_template_library_book" model="mail.template">
+            <field name="name">Library: Book Released</field>
+            <field name="model_id" ref="ak_library_management_orm.model_library_book"/>
+            <field name="subject">Your Book {{ object.name }} Has Been Released</field>
+            <field name="email_from">{{ user.email_formatted }}</field>
+            <field name="email_to">{{ object.author_id.email }}</field>
+            <field name="body_html" type="html">
+                <div style="font-family: Arial, sans-serif; font-size: 14px; color: #333;">
+                    <div id='header' style="padding: 15px; text-align: center;">
+                        <h3>
+                            <t t-out="env.company.name or ''"/>
+                        </h3>
+                    </div>
+                    <div id='content' style="padding: 20px;">
+                        <p>Hello
+                            <strong>
+                                <t t-out="object.author_id.name"/>
+                            </strong>,
+                        </p>
+                        <p>
+                            Your book <strong> <t t-out="object.name or ''"/> </strong>
+                            is released by <strong><t t-out="object.create_uid.name or ''"/></strong>
+                            at <strong><t t-out="format_datetime(object.create_date) or ''"/>.</strong>
+                        </p>
+                        <p>
+                            Please review your book and let us know if any 
+                            corrections are required.
+                        </p>
+                        <p>Thank you!</p>
+                    </div>
+                    <div id='footer' style="padding: 15px;">
+                        <p>
+                            <strong>
+                                <t t-out="env.company.name or ''"/>
+                            </strong>
+                        </p>
+                        <p>
+                            <t t-out="env.company.phone or 'NA'"/> |
+                            <a t-att-href="'mailto:%s' % env.company.email">
+                                <t t-out="env.company.email or 'N/A'"/>
+                            </a> | 
+                            <a t-att-href="'%s' % env.company.website">
+                                <t t-out="env.company.website or 'N/A'"/>
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            </field>
+            <field name="lang">{{ user.lang }}</field>
+        </record>
+
+        <!-- Mail Template :  Book Reserved confirmation sent to customer -->
+        <record id="email_template_book_reservation" model="mail.template">
+            <field name="name">Library: Book Reserved</field>
+            <field name="model_id" ref="ak_library_search_domain.model_book_reservation"/>
+            <field name="subject">Reservation Confirmation</field>
+            <field name="email_from">{{ user.email_formatted }}</field>
+            <field name="email_to">{{ object.customer_id.email }}</field>
+            <field name="body_html" type="html">
+                <div style="font-family: Arial, sans-serif; font-size: 14px; color: #333;">
+                    <div id='content' style="padding: 20px;">
+                        <p>Hello
+                            <strong>
+                                <t t-out="object.customer_id.name"/>
+                            </strong>,
+                        </p>
+                        <p>
+                            Your reservation for the book "
+                            <strong><t t-out="object.book_id.name or ''"/></strong>
+                            " has been confirmed.
+                        </p>
+                        <p>
+                            Reservation Date: <strong><t t-out="object.reservation_date or ''"/></strong>
+                        </p>
+                        <p>
+                            Expected Pickup Date: <strong><t t-out="object.expected_pickup_date or ''"/></strong>
+                        </p>
+                        <p>
+                            Please collect the book before the expected date.
+                        </p>
+                        <p>Thank you!</p>
+                    </div>
+                    <div id='footer' style="padding: 15px;">
+                        <p>
+                            <strong>
+                                <t t-out="env.company.name or ''"/>
+                            </strong>
+                        </p>
+                        <p>
+                            <t t-out="env.company.phone or 'NA'"/> |
+                            <a t-att-href="'mailto:%s' % env.company.email">
+                                <t t-out="env.company.email or 'N/A'"/>
+                            </a> | 
+                            <a t-att-href="'%s' % env.company.website">
+                                <t t-out="env.company.website or 'N/A'"/>
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            </field>
+            <field name="lang">{{ user.lang }}</field>
+        </record>
+        
+    </data>
+</odoo>

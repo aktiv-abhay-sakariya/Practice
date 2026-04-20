@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!-- inherit Form View: Detailed view for editing/creating a category-->
+    <record id='book_category_view_form_inherit' model='ir.ui.view'>
+        <field name="name">book.category.view.form.inherit</field>
+        <field name="model">book.category</field>
+        <field name="inherit_id"
+               ref="ak_library_management.book_category_view_form"/>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='category_name']" position="attributes">
+                <attribute name="help">Name of Category</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='parent_categ_id']"
+                   position="attributes">
+                <attribute name="help">Select the Parent Category</attribute>
+                <attribute name="options">{
+                    'no_create': True,
+                    'no_create_edit': True,
+                    'no_open': True}
+                </attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- inherit Action : Update form view-->
+    <record id="ak_library_management.menu_access_category"
+            model="ir.actions.act_window">
+        <field name="name">Category</field>
+        <field name="res_model">book.category</field>
+        <field name="view_mode">list,form</field>
+        <field name="view_ids" eval="[
+            (5,0,0),
+            (0,0,{
+                'view_mode':'list',
+                'view_id':ref('ak_library_management.book_category_view_list')
+            }),
+            (0,0,{
+                'view_mode':'form',
+                'view_id':ref('book_category_view_form_inherit')
+            })
+        ]"/>
+    </record>
+
+    <!-- inherit Menuitem : Rename abd Add sequence in Book Category(Sub menu)
+    and Add in Configuration(Main menu)-->
+    <record id="ak_library_management.sub_menu_access_category" model="ir.ui.menu">
+        <field name="name">Book Category</field>
+        <field name="sequence">1</field>
+        <field name="parent_id"
+               ref="ak_library_management.configuration_menu_access"/>
+    </record>
+</odoo>

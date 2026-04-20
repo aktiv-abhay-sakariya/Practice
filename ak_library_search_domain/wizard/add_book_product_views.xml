@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <!-- wizard view: show a list view and add book products-->
+    <record id="add_book_product_wizard_view" model="ir.ui.view">
+        <field name="name">add.book.product.wizard.view</field>
+        <field name="model">book.order.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <field name="book_order_line_ids" invisible="is_editable">
+                    <list editable="bottom">
+                        <field name="product_id" 
+                               domain="[('is_book_product','=',True)]"/>
+                        <field name="quantity"/>
+                    </list>                                             
+                </field>
+
+                <field name="book_order_line_ids" invisible="not is_editable">
+                    <list editable="bottom" create="False">
+                        <field name="product_id" 
+                               domain="[('is_book_product','=',True)]"/>
+                        <field name="quantity"/>
+                    </list>                                             
+                </field>
+                
+                <footer>
+                    <button name="action_add_product"
+                            string="Add to Order"
+                            type="object"
+                            class="btn-primary"/>
+
+                    <button string="Cancel"
+                            class="btn-secondary"
+                            special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

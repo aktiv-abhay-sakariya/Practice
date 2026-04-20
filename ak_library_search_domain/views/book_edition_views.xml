@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <!-- inherit edition menu : Add group_id in Book Edition(Sub manu)-->
+    <record id="ak_library_management.sub_menu_access_edition"
+            model="ir.ui.menu">
+        <field name="group_ids" 
+               eval="[
+               (4, ref('ak_library_search_domain.librarian_group')),
+               (4, ref('ak_library_search_domain.library_manager_group'))
+            ]"/>
+    </record>
+
+</odoo>

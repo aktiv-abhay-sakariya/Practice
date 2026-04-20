@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="report_invoice_document_inherit" inherit_id="account.report_invoice_document">
+        
+            <xpath expr="//t[@t-set='address']" position="inside">
+                <div style="font-weight: bold !important;"/>
+            </xpath>
+
+        <!-- Format Invoice Reference, Date, and Payment Term -->
+        <xpath expr="//div[@id='informations']" position="attributes">
+            <attribute name="class">row mt-4 mb-4 justify-content-start</attribute>
+            <attribute name="style">font-weight: bold;</attribute>
+        </xpath>
+
+
+        <!-- Re-formatting Invoice Reference, Date, and Payment Term at the top -->
+        <xpath expr="//div[@id='informations']" position="replace">
+            <div id="informations" class="row mt-4 mb-4" style="align-items: flex-start;">
+                <div class="col-auto col-3 mw-100 mb-2" t-if="o.name" name="invoice_reference">
+                    <strong>Invoice Reference:</strong>
+                    <p class="m-0" t-field="o.name"/>
+                </div>
+                <div class="col-auto col-3 mw-100 mb-2" t-if="o.invoice_date" name="invoice_date">
+                    <strong>Invoice Date:</strong>
+                    <p class="m-0" t-field="o.invoice_date"/>
+                </div>
+                <div class="col-auto col-3 mw-100 mb-2" t-if="o.invoice_payment_term_id" name="payment_term">
+                    <strong>Payment Term:</strong>
+                    <p class="m-0" t-field="o.invoice_payment_term_id.name"/>
+                </div>
+            </div>
+        </xpath>
+
+        <!-- 3. Bank Account Details (After Total) -->
+        <xpath expr="//div[@id='total']" position="after">
+            <div class="row mt-4">
+                <div class="col-12 text-end">
+                    <div style="border: 1px solid black; display: inline-block; padding: 5px 15px;">
+                        <strong>Bank Account No.: </strong>
+                        <span t-field="o.partner_bank_id.acc_number"/>
+                    </div>
+                </div>
+            </div>
+        </xpath>
+
+    </template>
+
+
+</odoo>

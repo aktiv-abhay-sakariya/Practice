@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <!-- Categories created to group generic privileges & groups -->
+    <record model="ir.module.category" id="module_category_library">
+        <field name="name">Library</field>
+    </record>
+
+    <!-- This group is meant to manage Library groups -->
+    <record model="res.groups.privilege" id="library_groups_privilege">
+        <field name="name">Library</field>
+        <field name="category_id" ref="module_category_library"/>
+    </record>
+
+    <!-- Group: Library staff -->
+    <record id='library_staff_group' model='res.groups'>
+        <field name="name">library staff</field>
+        <field name="privilege_id" ref="library_groups_privilege"/>
+    </record>
+    
+    <!-- Group: Librarian -->
+    <record id='librarian_group' model='res.groups'>
+        <field name="name">librarian</field>
+        <field name="privilege_id" ref="library_groups_privilege"/>
+    </record>
+    
+    <!-- Group: Library Manager -->
+    <record id='library_manager_group' model='res.groups'>
+        <field name="name">library manager</field>
+        <field name="privilege_id" ref="library_groups_privilege"/>
+    </record>
+
+</odoo>

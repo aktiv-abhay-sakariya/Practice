@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data noupdate='1'>
+        
+        <!-- cron job for change book reservation state -->
+        <record id="cancel_reservation_cron" model="ir.cron">
+            <field name="name">Book Reservation State Change</field>
+            <field name="model_id" ref="ak_library_search_domain.model_book_reservation"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="user_id" ref="base.user_admin"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_update_book_status()</field>
+        </record>
+        
+        <!-- cron job for change author state -->
+        <record id="inactive_author_cron" model="ir.cron">
+            <field name="name">Author State Change</field>
+            <field name="model_id" ref="ak_library_management.model_author_author"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="user_id" ref="base.user_admin"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_update_author_status()</field>
+        </record>
+    </data>
+</odoo>

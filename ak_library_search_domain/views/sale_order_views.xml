@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- inherit Form View: add button and their visibility in product-->
+    <record id="sale_order_form_view_domian" model="ir.ui.view">
+        <field name="name">sale.order.form.view.domain</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='order_line']" position="before">
+
+                <button string="Add book" 
+                        name="action_add_edit_book_line"
+                        type="object"
+                        class="btn-primary"
+                        invisible = "is_book_add"/>
+                        
+                <button string="Edit Line"
+                        name="action_add_edit_book_line"
+                        type="object"
+                        invisible = "not is_book_add"/>
+            </xpath>
+
+            <xpath expr="//field[@name='order_line']" position="attributes">
+                <attribute name="readonly">is_book_add</attribute>
+            </xpath>
+        </field>
+    </record>
+</odoo>

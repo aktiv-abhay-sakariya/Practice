@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <!-- create record for allows you to choose a custom design for your PDF documents. -->
+    <record id="report_layout_author" model="report.layout">
+        <field name="name">Author</field>
+        <field name="sequence">10</field>
+        <field name="view_id" ref="ak_library_search_domain.author_author_layout"/>
+    </record>
+
+    <!-- Report Action : defines the PDF Report  for Author model-->
+    <record id="author_auhtor_report" model="ir.actions.report">
+        <field name="name">Print</field>
+        <field name="model">author.author</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">ak_library_search_domain.report_author_raw</field>
+        <field name="report_file">ak_library_search_domain.report_author_raw</field>
+        <field name="print_report_name">object.name</field>
+        <field name="binding_model_id" ref="ak_library_management.model_author_author"/>
+        <field name="binding_type">report</field>
+    </record>
+
+</odoo>

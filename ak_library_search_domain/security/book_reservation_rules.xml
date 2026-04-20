@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <!-- library staff record rules for book.reservation -->
+    <record id="library_staff_group_rules" model="ir.rule">
+        <field name="name">library staff book view</field>
+        <field name="model_id" ref="model_book_reservation"></field>
+        <field name="domain_force">[('state','!=','draft')]</field>
+        <field name="groups" eval="[(4, ref('library_staff_group'))]"/>
+    </record>
+    
+    <!-- librarian record rules for book.reservation -->
+    <record id="librarian_group_rules" model="ir.rule">
+        <field name="name">librarian book view</field>
+        <field name="model_id" ref="model_book_reservation"></field>
+        <field name="domain_force">[('create_uid', '=', user.id)]</field>
+        <field name="groups" eval="[(4, ref('librarian_group'))]"/>
+    </record>
+    
+    <!-- library manager record rules for book.reservation -->
+    <record id="library_manager_group_rules" model="ir.rule">
+        <field name="name">library manager book view</field>
+        <field name="model_id" ref="model_book_reservation"></field>
+        <field name="domain_force">[(1,'=',1)]</field>
+        <field name="groups" eval="[(4, ref('library_manager_group'))]"/>
+    </record>
+
+</odoo>

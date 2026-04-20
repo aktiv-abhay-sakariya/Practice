@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Report Layout : author.author model -->
+    <template id="author_author_layout">
+        <div t-attf-class="header o_company_#{company.id}_layout">
+            <div class="o_folder_company_info d-flex justify-content-between mt-2">
+                <div class="w-50">
+                    <img t-if="company.logo" class="o_company_logo_big mb-2" t-att-src="image_data_uri(company.logo)" alt="Logo"/>
+                    <div t-if="company.report_header" t-field="company.report_header" class="o_company_tagline fw-bold">Company tagline</div>
+                </div>
+                <div name="company_address" class="w-50 text-end">
+                    <ul class="list-unstyled" name="company_address_list">
+                        <li t-if="company.is_company_details_empty">
+                            <span style="font-weight: bold;">Address :</span>
+                            <span t-field="company.partner_id.contact_address_complete"></span>
+                        </li>
+                        <li t-else="">
+                            <span style="font-weight: bold;">Adderess :</span>
+                            <span t-field="company.company_details"></span>
+                        </li>
+
+                        <li>
+                            <span style="font-weight: bold;">Email ID :</span>
+                            <span t-field="company.email">N/A</span>
+                        </li>
+                        <li>
+                            <span style="font-weight: bold;">Phone No. :</span>
+                            <span t-field="company.phone">N/A</span>
+                        </li>
+                        
+                        <li t-if="not forced_vat">
+                            <t t-if="company.vat">
+                                <span style="font-weight: bold;"><t t-esc="company.country_id.vat_label or 'Tax ID'">Tax ID</t>:</span>
+                                <span t-esc="company.vat">US12345671</span>
+                            </t>
+                        </li>
+                        <li t-else="">
+                            <span style="font-weight: bold;"><t style="font-weight: bold;" t-esc="company.country_id.vat_label or 'Tax ID'">Tax ID</t>:</span>
+                            <span t-esc="forced_vat">US12345671</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <t t-set="layout_background_url"
+           t-value="'data:image/png;base64,%s' % company.layout_background_image.decode('utf-8') if company.layout_background_image and company.layout_background == 'Custom' else
+                '/base/static/img/demo_logo_report.png' if company.layout_background == 'Demo logo' else ''" />
+        <div t-attf-class="article o_report_layout_standard o_table_standard o_company_#{company.id}_layout o_snail_mail {{'o_report_layout_background' if company.layout_background != 'Blank' else ''}}"
+             t-attf-style="{{ 'background-image: url(%s);' % layout_background_url if layout_background_url else '' }}"
+             t-att-data-oe-model="o and o._name"
+             t-att-data-oe-id="o and o.id"
+             t-att-data-oe-lang="o and o.env.context.get('lang')">
+            <t t-out="0"/>
+        </div>
+
+        <div t-attf-class="footer o_company_#{company.id}_layout {{report_type != 'pdf' and 'mt-auto'}}">
+            <div class="o_footer_content d-flex border-top pt-2">
+                <div class="flex-grow-1 text-start me-2">
+                    <img t-if="company.logo" class="o_company_logo_small" t-att-src="image_data_uri(company.logo)" alt="Logo"/>
+                </div>
+                <div class="text-end text-muted">
+                    <div t-if="report_type == 'pdf' and display_name_in_footer" t-out="o.name">(document name)</div>
+                    <div t-if="report_type == 'pdf'" class="text-nowrap">Page <span class="page"/> / <span class="topage"/></div>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!-- Report template : handle mutiple records for printing the PDF -->
+    <template id="report_author_raw">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="ak_library_search_domain.report_author_document"/>
+            </t>
+        </t>
+    </template>
+
+    <!-- Document template : pass the author data and their books records data -->
+    <template id="report_author_document">
+        <t t-set="company" t-value="env.company"/>
+        <t t-call="ak_library_search_domain.author_author_layout">
+            <div class="page">
+                <div class="oe_structure"/>
+                <div class="h2 mb-3" id="informations"> 
+                    <span class="fw-bold">Author #</span>
+                    <span t-esc="doc.name or 'NA'"/>
+                </div>
+                <div class="mt-2">
+                    <span class="fw-bold">Gender : </span>
+                    <span t-esc="doc.gender or 'NA'"/>
+                </div>
+                <div class="mt-2">
+                    <span class="fw-bold">Country : </span>
+                    <span t-esc="doc.nationality or 'NA'"/>
+                </div>
+                <t t-if="doc.email">
+                    <div class="mt-2">
+                        <span class="fw-bold">Email ID : </span>
+                        <span t-esc="doc.email or 'NA'"/>
+                    </div>
+                </t>
+                <div class="mt-2">
+                    <span class="fw-bold">Phone Number : </span>
+                    <span t-esc="doc.phone or 'NA'"/>
+                </div>
+                <table class="table table-sm main_table mt-5 table-bordered">
+                    <thead style="display: table-row-group">
+                        <tr>
+                            <th class="fw-bold text-center">Book Name</th>
+                            <th class="fw-bold text-center">ISBN</th>
+                            <th class="fw-bold text-center">Publish Date</th>
+                            <th class="fw-bold text-center">Price</th>
+                            <th class="fw-bold text-center">Pages</th>
+                        </tr>
+                    </thead>
+                    <tbody class="author_tbody">
+                        <t t-if="doc.book_ids">
+                            <t t-foreach="doc.book_ids" t-as="item">
+                                <tr>
+                                    <td class="text-center"><span t-esc="item.book_id.name"/></td>
+                                    <td class="text-center"><span t-esc="item.book_id.isbn"/></td>
+                                    <td class="text-center"><span t-esc="item.book_id.publication_date"/></td>
+                                    <td class="text-center"><span t-esc="item.book_id.price"/></td>
+                                    <td class="text-center"><span t-esc="item.book_id.pages"/></td>
+                                </tr>
+                            </t>
+                        </t>
+                    </tbody>
+                </table>
+            </div>
+        </t>
+    </template>
+
+</odoo>

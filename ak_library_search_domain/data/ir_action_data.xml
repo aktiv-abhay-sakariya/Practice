@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data noupdate='1'>
+
+        <!-- server action for cancel overdue resservation -->
+        <record id="action_cancel_overdue_reservation" model="ir.actions.server">
+            <field name="name">Cancel Overdue Reservations</field>
+            <field name="model_id" ref="ak_library_search_domain.model_book_reservation"/>
+            <field name="sequence">1</field>
+            <field name="binding_model_id" ref="ak_library_search_domain.model_book_reservation"/>
+            <field name="binding_view_types">list,form</field>
+            <field name="state">code</field>
+            <field name="code">
+                action = records.action_cancel_overdue_reservation()
+            </field>
+        </record>
+        
+        <!-- server action for add log note -->
+        <record id="action_add_log_note" model="ir.actions.server">
+            <field name="name">Add log note</field>
+            <field name="model_id" ref="ak_library_search_domain.model_book_reservation"/>
+            <field name="state">code</field>
+            <field name="code">     
+                record.message_post(
+                    body = (f"""
+                        The reservation has been confirmed. 
+                        {record.customer_id.name} should pick up the book 
+                        before the {record.expected_pickup_date}.
+                    """),
+                    message_type = 'comment'
+                )   
+            </field>
+        </record>
+        
+        <!-- automation rule for add log note when state change to reserved -->
+        <record id="action_cancel_overdue_reservation_automation" model="base.automation">
+            <field name="name">Auto add log note on state is reserved</field>
+            <field name="model_id" ref="ak_library_search_domain.model_book_reservation"/>
+            <field name="trigger">on_create_or_write</field>
+            <field name="trigger_field_ids" eval="[(4, ref('ak_library_search_domain.field_book_reservation__state'))]"/>
+            <field name="filter_domain">[('state', '=', 'reserved')]</field>
+            <field name="action_server_ids" eval="[(4, ref('action_add_log_note'))]"/>
+        </record>
+    </data>
+</odoo> 

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates xml:space="preserve">
+    <t t-name="product_variant_attribute_wise_stock_report.ProductSelectorTemplate">
+        <div class="o_action o_view_controller p-4 bg-white min-vh-100">
+            <!-- Centered Header Section Title Block -->
+            <div class="card p-3 shadow-sm border-0 bg-light rounded-3 w-100">
+                <div class="w-100 text-center mb-4">
+                    <h2 class="fw-bold text-dark drop-shadow-sm">Product Variant Attribute-wise Stock Report</h2>
+                </div>
+
+                <!-- Main Filter Card Wrapper -->
+                <div class="row g-3 align-items-center">
+                    <div class="col-md-6 d-flex align-items-center gap-4">
+                        <h5 class="mb-0 text-nowrap">Product:</h5>
+                        <select class="o_input form-select shadow-sm w-75" name="product" t-on-change="onSelectionChange">
+                            <option value="">-- Choose Product --</option>
+                            <t t-foreach="state.products" t-as="rec" t-key="rec.id">
+                                <option t-att-value="rec.id">
+                                    <t t-esc="rec.display_name"/>
+                                </option>
+                            </t>
+                        </select>
+                    </div>
+                    <div class="col-md-6 d-flex align-items-center gap-4">
+                        <h5 class="mb-0 text-nowrap">Product Category:</h5>
+                        <select class="o_input form-select shadow-sm w-75"  name="category" t-on-change="onSelectionChange">
+                            <option value="">-- Choose Category --</option>
+                            <t t-foreach="state.categories || []" t-as="cat" t-key="cat.id">
+                                <option t-att-value="cat.id">
+                                    <t t-esc="cat.display_name"/>
+                                </option>
+                            </t>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+</templates>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="product_report_action_performance" model="ir.actions.client">
+        <field name="name">Product Analysis</field>
+        <field name="tag">product_variant_attribute_wise_stock_report.ProductSelectorTemplate</field>
+    </record>
+
+    <menuitem
+        id="product_dashboard_menuitem"
+        name="Product Variant Attribute-wise Stock Report"
+        parent="stock.menu_warehouse_report"
+        action="product_report_action_performance"
+        sequence="300"
+        groups="base.group_no_one"/>
+</odoo>

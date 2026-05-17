@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates xml:space="preserve">
+    <t t-name="product_variant_attribute_wise_stock_report.ProductSelectorTemplate">
+        <div class="o_action o_view_controller p-4 bg-view min-vh-100">
+            <!-- Filter Section Card Block -->
+            <div class="card p-4 shadow border-0 bg-primary-subtle rounded-3 w-100 mb-4">
+                <div class="w-100 text-center mb-4">
+                    <h2 class="fw-bold text-primary-dark drop-shadow-sm">Product Variant Attribute-wise Stock Report</h2>
+                </div>
+
+                <div class="row g-3 align-items-center">
+                    <div class="col-md-6 d-flex align-items-center gap-4">
+                        <h5 class="mb-0 text-nowrap fw-semibold">Product :</h5>
+                        <select class="o_input form-select bg-white shadow-sm w-75" name="product" t-on-change="onSelectionChange">
+                            <option value="all">-- All Products --</option>
+                            <t t-foreach="state.products" t-as="rec" t-key="rec.id">
+                                <option t-att-value="rec.id">
+                                    <t t-esc="rec.display_name"/>
+                                </option>
+                            </t>
+                        </select>
+                    </div>
+                    <div class="col-md-6 d-flex align-items-center gap-4">
+                        <h5 class="mb-0 text-nowrap fw-semibold">Product Category :</h5>
+                        <select class="o_input form-select bg-white shadow-sm w-75"  name="category" t-on-change="onSelectionChange">
+                            <option value="all">-- All Categories --</option>
+                            <t t-foreach="state.categories || []" t-as="cat" t-key="cat.id">
+                                <option t-att-value="cat.id">
+                                    <t t-esc="cat.display_name"/>
+                                </option>
+                            </t>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Matrix Results Container Block -->
+            <div class="card p-4 shadow border-0 bg-white rounded-3 w-100">
+                <t t-if="state.reportRecords and state.reportRecords.length > 0">
+                    <t t-foreach="state.reportRecords" t-as="productReport" t-key="productReport.id">
+                        <div class="product-report-block mb-5 pb-4 border-bottom">
+                            <!-- Product Label Metadata Block -->
+                            <div class="d-flex align-items-center gap-2 mb-3">
+                                <h4 class="text-dark fw-bold mb-0"><t t-esc="productReport.name"/></h4>
+                                <span class="badge bg-secondary rounded-pill"><t t-esc="productReport.category"/></span>
+                            </div>
+
+                            <!-- Cross Matrix Dynamic Grid Table layout -->
+                            <div class="table-responsive">
+                                <table class="table table-bordered align-middle text-center shadow-sm rounded overflow-hidden">
+                                    <thead class="table-dark">
+                                        <tr>
+                                            <!-- Top-left intersection axis label cell -->
+                                            <th class="bg-dark text-white fw-bold">
+                                                <t t-esc="productReport.attribute_1"/> \ <t t-esc="productReport.attribute_2"/>
+                                            </th>
+                                            <!-- Create columns headers dynamically via Attribute 2 values loop -->
+                                            <t t-foreach="productReport.values_2" t-as="colHeader" t-key="colHeader">
+                                                <th scope="col"><t t-esc="colHeader"/></th>
+                                            </t>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Row rendering loops via Attribute 1 structures -->
+                                        <t t-foreach="productReport.matrix" t-as="row" t-key="row.row_value">
+                                            <tr>
+                                                <!-- Row left axis label header cell -->
+                                                <td class="bg-light fw-bold text-start ps-3 w-20">
+                                                    <t t-esc="row.row_value"/>
+                                                </td>
+                                                <!-- Values quantities section cell loops mapping -->
+                                                <t t-foreach="row.columns" t-as="cell" t-key="cell.col_value">
+                                                    <td t-attf-class="fw-bold #{cell.qty > 0 ? 'text-success' : 'text-danger bg-light-subtle'}">
+                                                        <t t-esc="cell.qty"/>
+                                                    </td>
+                                                </t>
+                                            </tr>
+                                        </t>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+                <t t-else="">
+                    <!-- Fallback status block view section -->
+                    <div class="text-center p-5 text-muted">
+                        <i class="oi oi-search fs-1 mb-3 block text-secondary"></i>
+                        <p class="fs-5 mb-0">No matching products with 2 attributes found.</p>
+                    </div>
+                </t>
+            </div>
+        </div>
+    </t>
+</templates>

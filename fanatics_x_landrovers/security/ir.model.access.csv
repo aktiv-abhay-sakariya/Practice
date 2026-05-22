@@ -1,0 +1,13 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_landrover_defender_model,access_landrover_defender_model,model_landrover_defender_model,,1,1,1,1
+access_landrover_wheel_base,access_landrover_wheel_base,model_landrover_wheel_base,,1,1,1,1
+access_landrover_steering,access_landrover_steering,model_landrover_steering,,1,1,1,1
+access_landrover_country_export,access_landrover_country_export,model_landrover_country_export,,1,1,1,1
+access_build_summary_user,build.summary.user,model_build_summary,base.group_user,1,1,1,1
+access_customer_requirements_user,customer.requirements.user,model_customer_requirements,base.group_user,1,1,1,1
+access_donor_vehicle_user,donor.vehicle.user,model_donor_vehicle,base.group_user,1,1,1,1
+access_donor_vehicle_label,donor.vehicle.label,model_donor_vehicle_label,base.group_user,1,1,1,1
+access_customer_requirements_attribute,customer.requirements.attribute,model_customer_requirements_attribute,base.group_user,1,1,1,1
+access_product_level1,product.level1,model_product_level1,base.group_user,1,1,1,1
+access_product_level2,product.level2,model_product_level2,base.group_user,1,1,1,1
+fanatics_x_landrovers.access_vehicle_detail,access_vehicle_detail,fanatics_x_landrovers.model_vehicle_detail,base.group_user,1,1,1,1

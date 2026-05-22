@@ -1,0 +1,81 @@
+<odoo>
+
+    <!-- Inherit project.view_project_project_filter -->
+    <record id="fanatics_x_landrovers_view_project_search_inherit" model="ir.ui.view">
+        <field name="name">fanatics.x.landrovers.view.project.search.inherit</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.view_project_project_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='tags']" position="after">
+                <filter string="Vehicles" name="vehicle" context="{'group_by': 'vehicle_detail_id'}"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Inherit project.view_project_kanban -->
+    <record id="project_project_view_kanban_inherit_landrovers" model="ir.ui.view">
+        <field name="name">project.project.view.kanban.inherit.landrovers</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.view_project_kanban"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[hasclass('o_project_kanban_boxes')]" position="inside">
+                <a class="o_project_kanban_box me-1" name="action_view_quality_alerts" type="object">
+                    <div>
+                        <field name="count_quality_alerts" class="o_value"/>
+                        <span class="ms-1">Quality Alerts</span>
+                    </div>
+                </a>
+            </xpath>
+            <xpath expr="//kanban" position="attributes">
+                <attribute name="action">project_update_all_action</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Inherit project.edit_project -->
+    <record id="project_project_view_form_inherit_landrovers" model="ir.ui.view">
+        <field name="name">project.project.view.form.inherit.landrovers</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.edit_project"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button class="oe_stat_button" type="object" name="action_view_quality_alerts" icon="fa-check">
+                    <div class="o_field_widget o_stat_info">
+                        <span class="o_stat_text">Quality Alerts</span>
+                        <span class="o_stat_value">
+                            <field name="count_quality_alerts"/>
+                        </span>
+                    </div>
+                </button>
+                <button class="oe_stat_button" type="object" name="action_open_donor_vehicle" icon="fa-car">
+                    <div class="o_field_widget o_stat_info">
+                        <span class="o_stat_text">Donor Vehicle</span>
+                        <span class="o_stat_value">
+                            <field name="count_donor_vehicle"/>
+                        </span>
+                    </div>
+                </button>
+                <button class="oe_stat_button" type="object" name="action_open_won_opportunity_of_project" icon="fa-user" invisible="not won_lead_id">
+                    <div class="o_field_widget o_stat_info">
+                        <span class="o_stat_text">Customer</span>
+                    </div>
+                </button>
+            </xpath>
+            <xpath expr="//field[@name='tag_ids']" position="after">
+                <field name="nickname"/>
+                <field name="won_lead_id" invisible="1"/>
+            </xpath>
+            <xpath expr="//field[@name='tag_ids']" position="after">
+                <field name="project_is_vehicle_build" invisible="1"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="project_embedded_action_donor_vehicles" model="ir.embedded.actions">
+        <field name="parent_res_model">project.project</field>
+        <field name="sequence">120</field>
+        <field name="name">Donor Vehicle</field>
+        <field name="parent_action_id" ref="project.act_project_project_2_project_task_all"/>
+        <field name="python_method">action_open_donor_vehicle</field>
+    </record>
+</odoo>

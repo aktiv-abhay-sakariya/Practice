@@ -1,0 +1,359 @@
+<odoo>
+    <record id="view_build_summary_list" model="ir.ui.view">
+        <field name="name">build.summary.list</field>
+        <field name="model">build.summary</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="build_slot_number_id"/>
+                <field name="contact_name_id"/>
+                <field name="project_id"/>
+                <field name="project_image_id"/>
+                <field name="donor_vehicle_vin_id"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_build_summary_form" model="ir.ui.view">
+        <field name="name">build.summary.form</field>
+        <field name="model">build.summary</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="build_slot_number_id"/>
+                        <field name="contact_name_id"/>
+                        <field name="project_id"/>
+                        <field name="project_image_id"/>
+                        <field name="donor_vehicle_vin_id"/>
+                    </group>
+                    <notebook>
+                        <page string="Sales Orders">
+                            <field name="sales_orders_ids"/>
+                        </page>
+                        <page string="Manufacturing Orders">
+                            <field name="manufacturing_orders_ids"/>
+                        </page>
+                        <page string="Invoices">
+                            <field name="invoices_ids"/>
+                        </page>
+                        <page string="Customer Requirements">
+                            <field name="customer_requirements_ids"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_build_summary_search" model="ir.ui.view">
+        <field name="name">build.summary.search</field>
+        <field name="model">build.summary</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="build_slot_number_id"/>
+                <field name="contact_name_id"/>
+                <field name="project_id"/>
+                <field name="donor_vehicle_vin_id"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_build_summary" model="ir.actions.act_window">
+        <field name="name">Build Summary</field>
+        <field name="res_model">build.summary</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem id="menu_build_summary" name="Build Summary" parent="stock.menu_stock_root" action="action_build_summary" sequence="10"/>
+
+
+
+
+    <!-- -->
+    <record id="view_customer_requirements_list" model="ir.ui.view">
+        <field name="name">customer.requirements.list</field>
+        <field name="model">customer.requirements</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="build_project_id"/>
+                <field name="build_slot_number_id"/>
+                <field name="customer_id"/>
+                <field name="vehicle_name"/>
+                <field name="attribute_id"/>
+                <field name="option_id"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_customer_requirements_form" model="ir.ui.view">
+        <field name="name">customer.requirements.form</field>
+        <field name="model">customer.requirements</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="build_project_id"/>
+                        <field name="build_slot_number_id"/>
+                        <field name="customer_id"/>
+                        <field name="vehicle_name"/>
+                        <field name="vehicle_detail_id"/>
+                        <field name="attribute_ids">
+                            <list editable="bottom">
+                                <field name="attribute_id"/>
+                                <field name="option_id"/>
+                                <field name="decision_so_ids" widget="many2many_tags"/>
+                                <field name="customer_decision_deadline"/>
+                            </list>
+                        </field>
+
+                    </group>
+                    <notebook>
+                        <page string="Decision Stage">
+<!--                            <field name="decision_stage_ids"/>-->
+                        </page>
+                        <page string="Decision SO">
+<!--                            <field name="decision_so_ids"/>-->
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_customer_requirements_search" model="ir.ui.view">
+        <field name="name">customer.requirements.search</field>
+        <field name="model">customer.requirements</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="build_slot_number_id"/>
+                <field name="customer_id"/>
+                <field name="vehicle_name"/>
+                <field name="attribute_id"/>
+                <field name="option_id"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_customer_requirements" model="ir.actions.act_window">
+        <field name="name">Customer Requirements</field>
+        <field name="res_model">customer.requirements</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem id="menu_customer_requirements" name="Customer Requirements" parent="stock.menu_stock_root" action="action_customer_requirements" sequence="20"/>
+
+
+
+    <record id="view_donor_vehicle_list" model="ir.ui.view">
+        <field name="name">donor.vehicle.list</field>
+        <field name="model">donor.vehicle</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="project_id"/>
+                <field name="lot_id"/>
+                <field name="location_id"/>
+                <field name="vin_checked"/>
+                <field name="id_plate_present"/>
+                <field name="in_dor"/>
+                <field name="appraised"/>
+                <field name="rdw_imported_nl_license_plate"/>
+                <field name="rdw_labelled"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_donor_vehicle_form" model="ir.ui.view">
+        <field name="name">donor.vehicle.form</field>
+        <field name="model">donor.vehicle</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="lot_id"/>
+                        <field name="project_id" domain="[('donor_vehicle_id', '=', False),
+                ('project_is_vehicle_build', '=', True)]"/>
+                    </group>
+                    <group string="Extra Chassis Numbers">
+                        <field name="extra_chassis_number_a"/>
+                        <field name="extra_chassis_number_a1"/>
+                        <field name="extra_chassis_number_a2"/>
+                        <field name="extra_chassis_number_b"/>
+                        <field name="extra_chassis_number_c"/>
+                        <field name="extra_chassis_number_d"/>
+                        <field name="extra_chassis_number_e"/>
+                    </group>
+                    <group string="Extra ID numbers">
+                        <field name="engine_number"/>
+                        <field name="gearbox_number"/>
+                        <field name="t_case_number"/>
+                        <field name="axle_number_rear"/>
+                        <field name="axle_number_front"/>
+                    </group>
+                    <group>
+                        <field name="vehicle_name"/>
+                        <field name="vehicle_detail_id"/>
+                        <field name="build_slot_number_id"/>
+                        <field name="customer_id"/>
+                        <field name="age"/>
+                        <field name="country_of_origin_id"/>
+                        <field name="motor_id"/>
+                        <field name="build_date"/>
+                        <field name="wheelbase"/>
+                        <field name="license_plate"/>
+                        <field name="location_id"/>
+                        <field name="purchase_date"/>
+                        <field name="purchase_price"/>
+                        <field name="currency_id"/>
+                        <field name="purchased_from_id"/>
+                        <field name="purchased_by_which_entity"/>
+                        <field name="doc"/>
+                        <field name="doc_images"/>
+                        <field name="heritage_certificate"/>
+                        <field name="heritage_certificate_image"/>
+                        <field name="heritage_certificate_file"/>
+                        <field name="vin_checked"/>
+                        <field name="id_plate_present"/>
+                        <field name="id_plate_location_id"/>
+                        <field name="id_plate_responsible_person_id" domain="[('user_id', '!=', False)]"/>
+                        <field name="folder_admin"/>
+                        <field name="in_dor"/>
+                        <field name="appraised"/>
+                        <field name="rdw_imported_nl_license_plate"/>
+                    </group>
+                    <group string="RDW Label">
+                         <field name="rdw_labelled"/>
+                        <field name="rdw_label_ids">
+                            <list editable="bottom">
+                                <field name="rdw_label_id"/>
+                                <field name="rdw_label_location_on_car"/>
+                                <field name="rdw_lost_label"/>
+                                <field name="rdw_label_photo"/>
+                            </list>
+                        </field>
+                    </group>
+                    <group>
+                        <field name="own_chassis"/>
+                        <field name="used_new_chassis"/>
+                        <field name="new_chassis_serial"/>
+                        <field name="drive_side"/>
+                        <field name="internal_notes"/>
+                        <field name="rdw_lost_labels"/>
+                        <field name="build_stage_id"/>
+                        <field name="donor_state"/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_donor_vehicle_search" model="ir.ui.view">
+        <field name="name">donor.vehicle.search</field>
+        <field name="model">donor.vehicle</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="project_id"/>
+                <field name="lot_id"/>
+                <field name="vin_checked"/>
+                <field name="id_plate_present"/>
+                <field name="in_dor"/>
+                <field name="appraised"/>
+                <field name="rdw_imported_nl_license_plate"/>
+                <field name="rdw_labelled"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_donor_vehicle" model="ir.actions.act_window">
+        <field name="name">Donor Vehicle</field>
+        <field name="res_model">donor.vehicle</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem id="menu_donor_vehicle" name="Donor Vehicle" action="action_donor_vehicle" sequence="30"/>
+
+
+    <record id="project_project_view_form_simplified_inherit_landrovers" model="ir.ui.view">
+        <field name="name">project.project.view.form.simplified.inherit.landrovers</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.project_project_view_form_simplified"/>
+        <field name="priority">24</field>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='alias_def']" position="after">
+                <group string="Car Details">
+                    <group>
+                        <field name="build_slot_number" readonly="1"/>
+                        <field name="vehicle_name"/>
+                        <field name="vehicle_detail_id" invisible="project_is_vehicle_build"/>
+                        <field name="render"/>
+                    </group>
+                    <group>
+                        <field name="build_summary_id"/>
+                        <field name="donor_vehicle_id" readonly="1"/>
+                        <field name="export_country_ids" widget="many2many_tags" options="{'no_create': True}"/>
+                    </group>
+                </group>
+            </xpath>
+             <xpath expr="//div[hasclass('o_settings_container')]" position="inside">
+<!--                 <setting string="Planning">-->
+<!--                     <group>-->
+<!--                         <group>-->
+<!--                            <field name="date_start"/>-->
+<!--                            <field name="number_of_weeks"/>-->
+<!--                            <field name="date"/>-->
+<!--                         </group>-->
+<!--                     </group>-->
+<!--                </setting>-->
+                 <setting id="Planning">
+                    <div class="content-group">
+                        <div class="row mt16">
+                            <label for="date_start" class="col-lg-5" string="Planned Start Date"/>
+                            <field name="date_start" required="number_of_weeks &gt; 0"/>
+                            <label for="number_of_weeks" class="col-lg-5"/>
+                            <field name="number_of_weeks" />
+                            <label for="date" class="col-lg-5" string="Planned End Date"/>
+                            <field name="date" />
+                        </div>
+                    </div>
+                </setting>
+             </xpath>
+        </field>
+    </record>
+
+    <record id="project_view_form_inherit_project_forecast" model="ir.ui.view">
+        <field name="name">project.view.form.inherit.project.forecast</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.edit_project"/>
+        <field name="priority">32</field>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='tag_ids']" position="after">
+                <field name="build_summary_id"/>
+                <field name="build_slot_number" readonly="1"/>
+                <field name="vehicle_name"/>
+                <field name="vehicle_detail_id"/>
+                <field name="render"/>
+                <field name="donor_vehicle_id" readonly="1"/>
+                <field name="export_country_ids" widget="many2many_tags" options="{'no_create': True}"/>
+            </xpath>
+            <!-- Remove daterange widget -->
+            <xpath expr="//field[@name='date_start']" position="attributes">
+                <attribute name="widget"/>
+                <attribute name="options"/>
+                <attribute name="string">Planned Start Date</attribute>
+                <attribute name="required">number_of_weeks</attribute>
+            </xpath>
+            <!-- Make end date visible -->
+            <xpath expr="//field[@name='date']" position="attributes">
+                <attribute name="invisible">0</attribute>
+                <attribute name="string">Planned End Date</attribute>
+            </xpath>
+            <!-- Add number of weeks after start date -->
+            <xpath expr="//field[@name='date_start']" position="after">
+                <field name="number_of_weeks" />
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

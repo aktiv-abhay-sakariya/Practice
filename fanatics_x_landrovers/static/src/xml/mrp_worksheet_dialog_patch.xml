@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+  <t t-inherit="mrp_workorder.MrpWorksheetDialog" t-inherit-mode="extension">
+    <xpath expr="//DocumentViewer" position="after">
+      <t t-if="state.articles.length > 0">
+        <hr/>
+        <h5>📚 Related Articles</h5>
+        <div class="o_knowledge_links d-flex flex-column">
+            <t t-foreach="state.articles" t-as="article" t-key="article.id">
+                <div class="mb-1">
+                    <a t-attf-href="/web#id=#{article.id}&amp;model=knowledge.article&amp;view_type=form" target="_blank">
+                        <i class="fa fa-fw fa-book me-1"/>
+                        <t t-esc="article.display_name"/>
+                    </a>
+                </div>
+            </t>
+        </div>
+      </t>
+    </xpath>
+  </t>
+</templates>

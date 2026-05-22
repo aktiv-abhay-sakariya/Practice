@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!-- Inherit the default Manufacturing Orders (mrp.production) search view -->
+    <record id="view_mrp_production_filter_inherit_fanatics_landrover" model="ir.ui.view">
+        <field name="name">mrp.production.search.view.inherit.fanatics.landrove</field>
+        <field name="model">mrp.production</field>
+        <field name="inherit_id" ref="mrp.view_mrp_production_filter"/>
+        <field name="arch" type="xml">
+            <!-- remove the original workcenter field -->
+            <xpath expr="//search/field[@name='workcenter_id']" position="replace"/>
+
+            <!-- insert it at the top before name -->
+            <xpath expr="//search/field[@name='name']" position="after">
+                <field name="project_id"/>
+                <field name="workcenter_id" filter_domain="[('workorder_ids.workcenter_id', 'ilike', self)]"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

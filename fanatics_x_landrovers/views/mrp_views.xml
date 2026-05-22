@@ -1,0 +1,25 @@
+<odoo>
+    <!-- Inherit
+mrp.mrp_routing_workcenter_form_view -->
+
+    <record id="mrp_routing_workcenter_form_view_inherit_fanatics" model="ir.ui.view">
+        <field name="name">mrp.routing.workcenter.form.inherit.fanatics</field>
+        <field name="model">mrp.routing.workcenter</field>
+        <field name="inherit_id" ref="mrp.mrp_routing_workcenter_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='note']" position="after">
+                <field name="knowledge_article_ids">
+                    <list>
+                        <field name="name"/>
+                        <button name="view_knowledge_article"
+                                type="object"
+                                icon="fa-eye"
+                                class="btn btn-primary btn-sm"
+                                string="View Article"/>
+                    </list>
+                </field>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

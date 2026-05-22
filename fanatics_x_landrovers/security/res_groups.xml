@@ -1,0 +1,8 @@
+<odoo>
+
+    <record id="group_can_see_restricted_partner_names" model="res.groups">
+        <field name="name">Can see restricted partner names</field>
+        <field name="category_id" ref="base.module_category_hidden"/>
+    </record>
+
+</odoo>

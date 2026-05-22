@@ -1,0 +1,23 @@
+<odoo>
+
+    <record id="res_partner_view_form_inherit" model="ir.ui.view">
+        <field name="name">res.partner.view.form.inherit</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='function']" position="after">
+                <field name="customer_id" />
+                <field name="is_customer_contact"/>
+                <field name="nickname"/>
+                <field name="surname"/>
+                <field name="critical_supplier" readonly="1" groups="!base.group_erp_manager,!purchase.group_purchase_manager"/>
+                <field name="critical_supplier" readonly="0" groups="base.group_erp_manager,purchase.group_purchase_manager"/>
+                <field name="outsourced_process" readonly="1" groups="!base.group_erp_manager,!purchase.group_purchase_manager"/>
+                <field name="outsourced_process" readonly="0" groups="base.group_erp_manager,purchase.group_purchase_manager"/>
+                <field name="approval_status"/>
+            </xpath>
+        </field>
+    </record>
+
+
+</odoo>

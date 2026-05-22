@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <!-- Inherit the mail.Chatter template to customize send message and log note buttons -->
+    <t t-inherit="mail.Chatter" t-inherit-mode="extension">
+        <!-- Customize the "Send Email" button -->
+        <xpath expr="//button[contains(@class, 'o-mail-Chatter-sendMessage')]" position="replace">
+            <button class="o-mail-Chatter-sendMessage btn text-nowrap me-1" t-att-class="{
+                'btn-primary': state.composerType !== 'note',
+                'btn-secondary': state.composerType === 'note',
+                'active': state.composerType === 'message',
+                'my-2': !props.compactHeight
+            }" t-att-disabled="!state.thread.hasWriteAccess and !(state.thread.hasReadAccess and state.thread.canPostOnReadonly) and props.threadId" data-hotkey="m" t-on-click="() => this.toggleComposer('message')">
+                Send Email
+            </button>
+        </xpath>
+
+        <!-- Customize the "Log Internal Note" button -->
+        <xpath expr="//button[contains(@class, 'o-mail-Chatter-logNote')]" position="replace">
+            <button class="o-mail-Chatter-logNote btn text-nowrap me-1" t-att-class="{
+                'btn-primary active': state.composerType === 'note',
+                'btn-secondary': state.composerType !== 'note',
+                'my-2': !props.compactHeight
+            }" t-att-disabled="!state.thread.hasWriteAccess and !(state.thread.hasReadAccess and state.thread.canPostOnReadonly) and props.threadId" data-hotkey="shift+m" t-on-click="() => this.toggleComposer('note')">
+                Log Internal Note
+            </button>
+        </xpath>
+      </t>
+</templates>
